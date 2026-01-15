@@ -1,0 +1,367 @@
+fileFormatVersion: 2
+guid: 0187bb8999b791741be220ac398b5209
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 715df9372183c47e389bb6e19fbc3b52, type: 3}
+  editorImportSettings:
+    generateSecondaryUVSet: 0
+  importSettings:
+    nodeNameMethod: 1
+    animationMethod: 2
+    generateMipMaps: 1
+    texturesReadable: 0
+    defaultMinFilterMode: 9729
+    defaultMagFilterMode: 9729
+    anisotropicFilterLevel: 1
+  instantiationSettings:
+    mask: -1
+    layer: 0
+    skinUpdateWhenOffscreen: 1
+    lightIntensityFactor: 1
+    sceneObjectCreation: 2
+  assetDependencies:
+  - type: 0
+    originalUri: Assets\testi2\testipaketti.bin
+    assetPath: Assets\testi2\testipaketti.bin
+  - type: 1
+    originalUri: Assets\testi2\Image_97.png
+    assetPath: Assets\testi2\Image_97.png
+  - type: 1
+    originalUri: Assets\testi2\Image_96.png
+    assetPath: Assets\testi2\Image_96.png
+  - type: 1
+    originalUri: Assets\testi2\Image_95.png
+    assetPath: Assets\testi2\Image_95.png
+  - type: 1
+    originalUri: Assets\testi2\Image_94.png
+    assetPath: Assets\testi2\Image_94.png
+  - type: 1
+    originalUri: Assets\testi2\Image_101.png
+    assetPath: Assets\testi2\Image_101.png
+  - type: 1
+    originalUri: Assets\testi2\Image_100.png
+    assetPath: Assets\testi2\Image_100.png
+  - type: 1
+    originalUri: Assets\testi2\Image_99.png
+    assetPath: Assets\testi2\Image_99.png
+  - type: 1
+    originalUri: Assets\testi2\Image_98.png
+    assetPath: Assets\testi2\Image_98.png
+  - type: 1
+    originalUri: Assets\testi2\Image_103.png
+    assetPath: Assets\testi2\Image_103.png
+  - type: 1
+    originalUri: Assets\testi2\Image_102.png
+    assetPath: Assets\testi2\Image_102.png
+  - type: 1
+    originalUri: Assets\testi2\Image_105.png
+    assetPath: Assets\testi2\Image_105.png
+  - type: 1
+    originalUri: Assets\testi2\Image_104.png
+    assetPath: Assets\testi2\Image_104.png
+  - type: 1
+    originalUri: Assets\testi2\Image_107.png
+    assetPath: Assets\testi2\Image_107.png
+  - type: 1
+    originalUri: Assets\testi2\Image_106.png
+    assetPath: Assets\testi2\Image_106.png
+  - type: 1
+    originalUri: Assets\testi2\Image_109.png
+    assetPath: Assets\testi2\Image_109.png
+  - type: 1
+    originalUri: Assets\testi2\Image_108.png
+    assetPath: Assets\testi2\Image_108.png
+  - type: 1
+    originalUri: Assets\testi2\Image_111.png
+    assetPath: Assets\testi2\Image_111.png
+  - type: 1
+    originalUri: Assets\testi2\Image_110.png
+    assetPath: Assets\testi2\Image_110.png
+  - type: 1
+    originalUri: Assets\testi2\Image_93.png
+    assetPath: Assets\testi2\Image_93.png
+  - type: 1
+    originalUri: Assets\testi2\Image_92.png
+    assetPath: Assets\testi2\Image_92.png
+  - type: 1
+    originalUri: Assets\testi2\Image_91.png
+    assetPath: Assets\testi2\Image_91.png
+  - type: 1
+    originalUri: Assets\testi2\Image_90.png
+    assetPath: Assets\testi2\Image_90.png
+  - type: 1
+    originalUri: Assets\testi2\Image_29.png
+    assetPath: Assets\testi2\Image_29.png
+  - type: 1
+    originalUri: Assets\testi2\Image_28.png
+    assetPath: Assets\testi2\Image_28.png
+  - type: 1
+    originalUri: Assets\testi2\Image_1.png
+    assetPath: Assets\testi2\Image_1.png
+  - type: 1
+    originalUri: Assets\testi2\Image_0.png
+    assetPath: Assets\testi2\Image_0.png
+  - type: 1
+    originalUri: Assets\testi2\Image_3.png
+    assetPath: Assets\testi2\Image_3.png
+  - type: 1
+    originalUri: Assets\testi2\Image_2.png
+    assetPath: Assets\testi2\Image_2.png
+  - type: 1
+    originalUri: Assets\testi2\Image_5.png
+    assetPath: Assets\testi2\Image_5.png
+  - type: 1
+    originalUri: Assets\testi2\Image_4.png
+    assetPath: Assets\testi2\Image_4.png
+  - type: 1
+    originalUri: Assets\testi2\Image_7.png
+    assetPath: Assets\testi2\Image_7.png
+  - type: 1
+    originalUri: Assets\testi2\Image_6.png
+    assetPath: Assets\testi2\Image_6.png
+  - type: 1
+    originalUri: Assets\testi2\Image_11.png
+    assetPath: Assets\testi2\Image_11.png
+  - type: 1
+    originalUri: Assets\testi2\Image_10.png
+    assetPath: Assets\testi2\Image_10.png
+  - type: 1
+    originalUri: Assets\testi2\Image_13.png
+    assetPath: Assets\testi2\Image_13.png
+  - type: 1
+    originalUri: Assets\testi2\Image_12.png
+    assetPath: Assets\testi2\Image_12.png
+  - type: 1
+    originalUri: Assets\testi2\Image_15.png
+    assetPath: Assets\testi2\Image_15.png
+  - type: 1
+    originalUri: Assets\testi2\Image_14.png
+    assetPath: Assets\testi2\Image_14.png
+  - type: 1
+    originalUri: Assets\testi2\Image_17.png
+    assetPath: Assets\testi2\Image_17.png
+  - type: 1
+    originalUri: Assets\testi2\Image_16.png
+    assetPath: Assets\testi2\Image_16.png
+  - type: 1
+    originalUri: Assets\testi2\Image_19.png
+    assetPath: Assets\testi2\Image_19.png
+  - type: 1
+    originalUri: Assets\testi2\Image_18.png
+    assetPath: Assets\testi2\Image_18.png
+  - type: 1
+    originalUri: Assets\testi2\Image_21.png
+    assetPath: Assets\testi2\Image_21.png
+  - type: 1
+    originalUri: Assets\testi2\Image_20.png
+    assetPath: Assets\testi2\Image_20.png
+  - type: 1
+    originalUri: Assets\testi2\Image_23.png
+    assetPath: Assets\testi2\Image_23.png
+  - type: 1
+    originalUri: Assets\testi2\Image_22.png
+    assetPath: Assets\testi2\Image_22.png
+  - type: 1
+    originalUri: Assets\testi2\Image_27.png
+    assetPath: Assets\testi2\Image_27.png
+  - type: 1
+    originalUri: Assets\testi2\Image_26.png
+    assetPath: Assets\testi2\Image_26.png
+  - type: 1
+    originalUri: Assets\testi2\Image_31.png
+    assetPath: Assets\testi2\Image_31.png
+  - type: 1
+    originalUri: Assets\testi2\Image_30.png
+    assetPath: Assets\testi2\Image_30.png
+  - type: 1
+    originalUri: Assets\testi2\Image_33.png
+    assetPath: Assets\testi2\Image_33.png
+  - type: 1
+    originalUri: Assets\testi2\Image_32.png
+    assetPath: Assets\testi2\Image_32.png
+  - type: 1
+    originalUri: Assets\testi2\Image_35.png
+    assetPath: Assets\testi2\Image_35.png
+  - type: 1
+    originalUri: Assets\testi2\Image_34.png
+    assetPath: Assets\testi2\Image_34.png
+  - type: 1
+    originalUri: Assets\testi2\Image_37.png
+    assetPath: Assets\testi2\Image_37.png
+  - type: 1
+    originalUri: Assets\testi2\Image_36.png
+    assetPath: Assets\testi2\Image_36.png
+  - type: 1
+    originalUri: Assets\testi2\Image_39.png
+    assetPath: Assets\testi2\Image_39.png
+  - type: 1
+    originalUri: Assets\testi2\Image_38.png
+    assetPath: Assets\testi2\Image_38.png
+  - type: 1
+    originalUri: Assets\testi2\Image_41.png
+    assetPath: Assets\testi2\Image_41.png
+  - type: 1
+    originalUri: Assets\testi2\Image_40.png
+    assetPath: Assets\testi2\Image_40.png
+  - type: 1
+    originalUri: Assets\testi2\Image_43.png
+    assetPath: Assets\testi2\Image_43.png
+  - type: 1
+    originalUri: Assets\testi2\Image_42.png
+    assetPath: Assets\testi2\Image_42.png
+  - type: 1
+    originalUri: Assets\testi2\Image_45.png
+    assetPath: Assets\testi2\Image_45.png
+  - type: 1
+    originalUri: Assets\testi2\Image_44.png
+    assetPath: Assets\testi2\Image_44.png
+  - type: 1
+    originalUri: Assets\testi2\Image_49.png
+    assetPath: Assets\testi2\Image_49.png
+  - type: 1
+    originalUri: Assets\testi2\Image_48.png
+    assetPath: Assets\testi2\Image_48.png
+  - type: 1
+    originalUri: Assets\testi2\Image_51.png
+    assetPath: Assets\testi2\Image_51.png
+  - type: 1
+    originalUri: Assets\testi2\Image_50.png
+    assetPath: Assets\testi2\Image_50.png
+  - type: 1
+    originalUri: Assets\testi2\Image_53.png
+    assetPath: Assets\testi2\Image_53.png
+  - type: 1
+    originalUri: Assets\testi2\Image_52.png
+    assetPath: Assets\testi2\Image_52.png
+  - type: 1
+    originalUri: Assets\testi2\Image_55.png
+    assetPath: Assets\testi2\Image_55.png
+  - type: 1
+    originalUri: Assets\testi2\Image_54.png
+    assetPath: Assets\testi2\Image_54.png
+  - type: 1
+    originalUri: Assets\testi2\Image_57.png
+    assetPath: Assets\testi2\Image_57.png
+  - type: 1
+    originalUri: Assets\testi2\Image_56.png
+    assetPath: Assets\testi2\Image_56.png
+  - type: 1
+    originalUri: Assets\testi2\Image_59.png
+    assetPath: Assets\testi2\Image_59.png
+  - type: 1
+    originalUri: Assets\testi2\Image_58.png
+    assetPath: Assets\testi2\Image_58.png
+  - type: 1
+    originalUri: Assets\testi2\Image_9.png
+    assetPath: Assets\testi2\Image_9.png
+  - type: 1
+    originalUri: Assets\testi2\Image_8.png
+    assetPath: Assets\testi2\Image_8.png
+  - type: 1
+    originalUri: Assets\testi2\Image_25.png
+    assetPath: Assets\testi2\Image_25.png
+  - type: 1
+    originalUri: Assets\testi2\Image_24.png
+    assetPath: Assets\testi2\Image_24.png
+  - type: 1
+    originalUri: Assets\testi2\Image_47.png
+    assetPath: Assets\testi2\Image_47.png
+  - type: 1
+    originalUri: Assets\testi2\Image_46.png
+    assetPath: Assets\testi2\Image_46.png
+  - type: 1
+    originalUri: Assets\testi2\Image_77.png
+    assetPath: Assets\testi2\Image_77.png
+  - type: 1
+    originalUri: Assets\testi2\Image_76.png
+    assetPath: Assets\testi2\Image_76.png
+  - type: 1
+    originalUri: Assets\testi2\Image_61.png
+    assetPath: Assets\testi2\Image_61.png
+  - type: 1
+    originalUri: Assets\testi2\Image_60.png
+    assetPath: Assets\testi2\Image_60.png
+  - type: 1
+    originalUri: Assets\testi2\Image_63.png
+    assetPath: Assets\testi2\Image_63.png
+  - type: 1
+    originalUri: Assets\testi2\Image_62.png
+    assetPath: Assets\testi2\Image_62.png
+  - type: 1
+    originalUri: Assets\testi2\Image_65.png
+    assetPath: Assets\testi2\Image_65.png
+  - type: 1
+    originalUri: Assets\testi2\Image_64.png
+    assetPath: Assets\testi2\Image_64.png
+  - type: 1
+    originalUri: Assets\testi2\Image_67.png
+    assetPath: Assets\testi2\Image_67.png
+  - type: 1
+    originalUri: Assets\testi2\Image_66.png
+    assetPath: Assets\testi2\Image_66.png
+  - type: 1
+    originalUri: Assets\testi2\Image_69.png
+    assetPath: Assets\testi2\Image_69.png
+  - type: 1
+    originalUri: Assets\testi2\Image_68.png
+    assetPath: Assets\testi2\Image_68.png
+  - type: 1
+    originalUri: Assets\testi2\Image_71.png
+    assetPath: Assets\testi2\Image_71.png
+  - type: 1
+    originalUri: Assets\testi2\Image_70.png
+    assetPath: Assets\testi2\Image_70.png
+  - type: 1
+    originalUri: Assets\testi2\Image_73.png
+    assetPath: Assets\testi2\Image_73.png
+  - type: 1
+    originalUri: Assets\testi2\Image_72.png
+    assetPath: Assets\testi2\Image_72.png
+  - type: 1
+    originalUri: Assets\testi2\Image_75.png
+    assetPath: Assets\testi2\Image_75.png
+  - type: 1
+    originalUri: Assets\testi2\Image_74.png
+    assetPath: Assets\testi2\Image_74.png
+  - type: 1
+    originalUri: Assets\testi2\Image_79.png
+    assetPath: Assets\testi2\Image_79.png
+  - type: 1
+    originalUri: Assets\testi2\Image_78.png
+    assetPath: Assets\testi2\Image_78.png
+  - type: 1
+    originalUri: Assets\testi2\Image_81.png
+    assetPath: Assets\testi2\Image_81.png
+  - type: 1
+    originalUri: Assets\testi2\Image_80.png
+    assetPath: Assets\testi2\Image_80.png
+  - type: 1
+    originalUri: Assets\testi2\Image_83.png
+    assetPath: Assets\testi2\Image_83.png
+  - type: 1
+    originalUri: Assets\testi2\Image_82.png
+    assetPath: Assets\testi2\Image_82.png
+  - type: 1
+    originalUri: Assets\testi2\Image_85.png
+    assetPath: Assets\testi2\Image_85.png
+  - type: 1
+    originalUri: Assets\testi2\Image_84.png
+    assetPath: Assets\testi2\Image_84.png
+  - type: 1
+    originalUri: Assets\testi2\Image_87.png
+    assetPath: Assets\testi2\Image_87.png
+  - type: 1
+    originalUri: Assets\testi2\Image_86.png
+    assetPath: Assets\testi2\Image_86.png
+  - type: 1
+    originalUri: Assets\testi2\Image_89.png
+    assetPath: Assets\testi2\Image_89.png
+  - type: 1
+    originalUri: Assets\testi2\Image_88.png
+    assetPath: Assets\testi2\Image_88.png
+  reportItems: []
