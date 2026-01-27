@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lower
+  m_Mask: 01000000000000000000000001000000010000000000000000000000000000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Armature
+    m_Weight: 1
+  - m_Path: Armature/Hip
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.L/Forearm.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.L/Forearm.L/Hand.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.R
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.R/Forearm.R
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Arm.R/Forearm.R/Hand.R
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Neck
+    m_Weight: 1
+  - m_Path: Armature/Hip/Stomach/Chest/Neck/Head
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.L/lowerLeg.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.L/lowerLeg.L/Foot.L
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.R
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.R/lowerLeg.R
+    m_Weight: 1
+  - m_Path: Armature/Hip/upperLeg.R/lowerLeg.R/Foot.R
+    m_Weight: 1
+  - m_Path: glasses
+    m_Weight: 1
+  - m_Path: hat
+    m_Weight: 1
+  - m_Path: head
+    m_Weight: 1
+  - m_Path: l_arm
+    m_Weight: 1
+  - m_Path: l_foot
+    m_Weight: 1
+  - m_Path: l_hand
+    m_Weight: 1
+  - m_Path: l_leg
+    m_Weight: 1
+  - m_Path: nose
+    m_Weight: 1
+  - m_Path: r_arm
+    m_Weight: 1
+  - m_Path: r_foot
+    m_Weight: 1
+  - m_Path: r_hand
+    m_Weight: 1
+  - m_Path: r_leg
+    m_Weight: 1
+  - m_Path: torso
+    m_Weight: 1
