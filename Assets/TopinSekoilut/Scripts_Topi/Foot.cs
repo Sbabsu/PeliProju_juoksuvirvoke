@@ -4,7 +4,7 @@ public class Foot : MonoBehaviour
 {
     public static bool IsGrounded { get; private set; } //any script can check if the player is grounded
                                                         //by reading Foot.IsGrounded.
-                                                        
+
     [SerializeField] LayerMask groundMask;
 
     private int _groundContacts;

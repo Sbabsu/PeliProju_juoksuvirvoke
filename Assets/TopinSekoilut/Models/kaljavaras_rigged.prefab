@@ -200,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 9100000, guid: 2ca9aa6bf0c928740964b48b77a3254a, type: 2}
     - target: {fileID: 5866666021909216657, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
       propertyPath: m_AnimatePhysics
       value: 0
@@ -1778,15 +1778,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ProtoPlayerController
   hips: {fileID: 6861685616402959686}
   animator: {fileID: 0}
+  groundCheckPoint: {fileID: 0}
   isMoving: 0
   isSprinting: 0
   isJumping: 0
   isStrafing_Left: 0
   isStrafing_Right: 0
+  jumpRequested: 0
+  isGrounded: 0
   speed: 2
   strafeSpeed: 1.5
   sprintSpeed: 4
   jumpForce: 35
+  groundCheckDistance: 0.2
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &8304540179204715499
 SphereCollider:
   m_ObjectHideFlags: 0
