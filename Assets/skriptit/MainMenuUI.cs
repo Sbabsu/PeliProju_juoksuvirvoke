@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using Unity.UI;
 
 public class MainMenuUI : MonoBehaviour
 {
     [Header("Scene names (must be in Build Settings)")]
     public string gameSceneName = "kartta1";
+    public string levelComplete = "LevelComplete";
 
     void OnEnable()
     {

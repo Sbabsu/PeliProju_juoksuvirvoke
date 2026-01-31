@@ -26,7 +26,8 @@ public class ProtoPlayerController : MonoBehaviour
 
     [SerializeField] float groundCheckDistance = 0.3f; // Slightly longer for safety
     [SerializeField] LayerMask groundMask;
-    
+    private PickUp _currentPickup;
+
     private bool _isGrounded;
     private bool _jumpRequested;
 
@@ -55,6 +56,11 @@ public class ProtoPlayerController : MonoBehaviour
         if (Input.GetButtonDown("Jump") && _isGrounded)
         {
             _jumpRequested = true;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) && _currentPickup != null)
+        {
+            CollectPickup();
         }
 
         // Animation updates
@@ -116,5 +122,38 @@ public class ProtoPlayerController : MonoBehaviour
     {
         hips.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         animator.SetBool("isJumping", true);
+    }
+
+    // Piuckup Logic
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Check for pickup items
+        PickUp pickup = other.GetComponent<PickUp>();
+        if (pickup != null)
+        {
+            _currentPickup = pickup;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        PickUp pickup = other.GetComponent<PickUp>();
+        if (pickup != null && pickup == _currentPickup)
+        {
+            _currentPickup = null;
+        }
+    }
+
+    private void CollectPickup()
+    {
+        if (_currentPickup != null)
+        {
+            _currentPickup.CollectItem();
+            _currentPickup = null;
+
+            // Trigger pickup animation if you have one
+            animator.SetTrigger("Pickup");
+        }
     }
 }
