@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelExit : MonoBehaviour
 {
@@ -6,10 +7,19 @@ public class LevelExit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag(playerTag))
+        if (other.CompareTag(playerTag))
         {
-            GameManager.Instance.EnableLevelExit();
+            // Only trigger popup if exit is actually enabled (all items collected)
+            if (GameManager.Instance.IsExitEnabled())
+            {
+                GameManager.Instance.ShowLevelCompletePopup();
+            }
+            else
+            {
+                Debug.Log("Collect all items before exiting!");
+                // Optional: Show quick message to player
+                // Or play a sound effect
+            }
         }
     }
-
 }

@@ -30,6 +30,7 @@ public class ProtoPlayerController : MonoBehaviour
 
     private bool _isGrounded;
     private bool _jumpRequested;
+    private bool _canMove = true;
 
     private void Start()
     {
@@ -45,10 +46,16 @@ public class ProtoPlayerController : MonoBehaviour
             groundCheck.transform.localPosition = new Vector3(0, 0.1f, 0); // Just below player
             groundCheckPoint = groundCheck.transform;
         }
+
+        // Hide cursor at start
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()
     {
+        if (!_canMove) return;
+
         // Check if grounded using raycast
         CheckGround();
 
@@ -84,6 +91,8 @@ public class ProtoPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!_canMove) return;
+
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
@@ -128,7 +137,6 @@ public class ProtoPlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check for pickup items
         PickUp pickup = other.GetComponent<PickUp>();
         if (pickup != null)
         {
@@ -150,10 +158,14 @@ public class ProtoPlayerController : MonoBehaviour
         if (_currentPickup != null)
         {
             _currentPickup.CollectItem();
-            _currentPickup = null;
 
-            // Trigger pickup animation if you have one
-            animator.SetTrigger("Pickup");
+            // Trigger pickup animation and other player effects here
         }
     }
+
+    public void SetMovementEnabled(bool enabled)
+    {
+        _canMove = enabled;
+    }
+
 }

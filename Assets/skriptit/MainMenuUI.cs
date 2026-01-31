@@ -5,7 +5,6 @@ public class MainMenuUI : MonoBehaviour
 {
     [Header("Scene names (must be in Build Settings)")]
     public string gameSceneName = "kartta1";
-    public string levelComplete = "LevelComplete";
 
     void OnEnable()
     {

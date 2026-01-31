@@ -9,56 +9,51 @@ public class GameManager : MonoBehaviour
 
     [Header("UI References")]
     public TMP_Text scoreText;
-    public Text pickupPromptText;
-    public GameObject levelExitTrigger;
-    public GameObject exitBlock; // Optional: Physical barrier that disappears
+
+    [Header("Level Complete Popup")]
+    public GameObject levelCompletePopup;
+    public TMP_Text popupScoreText;
+    public Button menuButton;
 
     [Header("Game Settings")]
     public int maxItems = 5;
 
     private int currentScore = 0;
-    private bool canExitLevel = false;
+    private float levelStartTime;
+    private bool isLevelComplete = false;
+    private bool exitEnabled = false; // Track if exit is actually enabled
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
 
-        InitializeGame();
-    }
-
-    private void InitializeGame()
-    {
-        currentScore = 0;
-        canExitLevel = false;
+        levelStartTime = Time.time;
         UpdateScoreUI();
 
-        // Initially hide level exit
-        if (levelExitTrigger != null)
-            levelExitTrigger.SetActive(false);
+        if (levelCompletePopup != null)
+            levelCompletePopup.SetActive(false);
 
-        if (exitBlock != null)
-            exitBlock.SetActive(true);
-
-        //HidePickupPrompt();
+        exitEnabled = false;
     }
 
     public void AddScore()
     {
+        if (isLevelComplete) return;
+
         currentScore++;
         UpdateScoreUI();
 
-        // Check if all items are collected
-        if (currentScore >= maxItems)
+        // Only enable exit when we have ALL required items
+        if (currentScore >= maxItems && !exitEnabled)
         {
-            EnableLevelExit();
+            EnableExit();
         }
     }
 
@@ -70,40 +65,59 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ShowPickupPrompt(bool show)
+    private void EnableExit()
     {
-        if (pickupPromptText != null)
-        {
-            pickupPromptText.gameObject.SetActive(show);
-            pickupPromptText.text = "Press E to pickup";
-        }
+        exitEnabled = true;
+        Debug.Log("All items collected! Exit is now enabled.");
     }
 
-    public void HidePickupPrompt()
+    public void ShowLevelCompletePopup()
     {
-        if (pickupPromptText != null)
+        // Only show popup if player actually completed the level
+        if (isLevelComplete || !exitEnabled) return;
+
+        isLevelComplete = true;
+
+        // Pause the game
+        Time.timeScale = 0f;
+
+        // Show cursor
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // Setup popup
+        if (levelCompletePopup != null)
         {
-            pickupPromptText.gameObject.SetActive(false);
+            levelCompletePopup.SetActive(true);
+
+            // Calculate level time
+            float levelTime = Time.time - levelStartTime;
+            int minutes = Mathf.FloorToInt(levelTime / 60f);
+            int seconds = Mathf.FloorToInt(levelTime % 60f);
+
+            // Update popup text
+            if (popupScoreText != null)
+                popupScoreText.text = $"Items Collected: {currentScore}/{maxItems}";
         }
+
+        // Setup button events
+
+        if (menuButton != null)
+            menuButton.onClick.AddListener(ReturnToMenu);
     }
 
-    public void EnableLevelExit()
+    public void ReturnToMenu()
     {
-        canExitLevel = true;
+        // Resume time before loading menu
+        Time.timeScale = 1f;
 
-        // Activate exit trigger
-        if (levelExitTrigger != null)
-        {
-            levelExitTrigger.SetActive(true);
-        }
+        // Load main menu scene
+        UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
+    }
 
-        // Remove any blocking obstacles
-        if (exitBlock != null)
-        {
-            exitBlock.SetActive(false);
-        }
-
-        // Optional: Show exit prompt
-        Debug.Log("All items collected! You can now exit the level.");
+    // Add this method to check if exit is enabled
+    public bool IsExitEnabled()
+    {
+        return exitEnabled;
     }
 }

@@ -360,9 +360,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -4654247559351130830, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8901144106720347478}
-    - targetCorrespondingSourceObject: {fileID: -4654247559351130830, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8168530655488201486}
     - targetCorrespondingSourceObject: {fileID: -290922132180389656, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4833913524748372882}
@@ -396,9 +393,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2872584475576323345, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4814639175887348295}
-    - targetCorrespondingSourceObject: {fileID: 2872584475576323345, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8072596441869842462}
   m_SourcePrefab: {fileID: 100100000, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
 --- !u!1 &1016927679979706212 stripped
 GameObject:
@@ -557,21 +551,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &8072596441869842462
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1016927679979706212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f659190ccffce464294548958e927b8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Foot
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &1132834873069300709 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2772248533947707792, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
@@ -900,21 +879,6 @@ ConfigurableJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!114 &8168530655488201486
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632951286801448775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f659190ccffce464294548958e927b8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Foot
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!1 &1810546104132484421 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3522369186669799216, guid: 61baa16cfd61c83448c85eecec763031, type: 3}
@@ -1784,8 +1748,6 @@ MonoBehaviour:
   isJumping: 0
   isStrafing_Left: 0
   isStrafing_Right: 0
-  jumpRequested: 0
-  isGrounded: 0
   speed: 2
   strafeSpeed: 1.5
   sprintSpeed: 4
