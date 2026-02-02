@@ -1,15 +1,15 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 public class PickUp : MonoBehaviour
 {
     [Header("Pickup Settings")]
-    public string playerTag = "Player";
-    public int maxPickupsFromArea = 5;
+    public int maxPickupsFromArea = 999999; // ei ylärajaa käytännössä
+    public string itemId = "beer_can";
+    public int amountPerPickup = 1;
 
     [Header("Visual Feedback")]
     public GameObject pickupEffect;
-    public Material collectedMaterial; // Optional: Change material when depleted
+    public Material collectedMaterial;
 
     private int itemsCollectedFromArea = 0;
     private bool isAreaDepleted = false;
@@ -24,60 +24,31 @@ public class PickUp : MonoBehaviour
     {
         if (isAreaDepleted) return;
 
+        // hae Inventory
+        var inv = FindObjectOfType<Inventory>(true);
+        if (inv == null)
+        {
+            Debug.LogError("PickUp: Inventoryä ei löytynyt scenestä/Playerista.");
+            return;
+        }
+
         itemsCollectedFromArea++;
+        inv.AddItem(itemId, amountPerPickup);
 
-        // Add to player's total score
-        GameManager.Instance?.AddScore();
-
-        // Spawn effect if exists
         if (pickupEffect != null)
-        {
             Instantiate(pickupEffect, transform.position, transform.rotation);
-        }
 
-        // Check if area is depleted
         if (itemsCollectedFromArea >= maxPickupsFromArea)
-        {
             DepleteArea();
-        }
     }
 
     private void DepleteArea()
     {
         isAreaDepleted = true;
 
-        // Visual feedback that area is empty
         if (collectedMaterial != null && areaRenderer != null)
-        {
             areaRenderer.material = collectedMaterial;
-        }
 
-        // Optionally shrink or change appearance
         transform.localScale *= 0.8f;
-
-        // Update UI
-
-        Debug.Log($"Pickup area depleted. Total collected: {itemsCollectedFromArea}");
-    }
-
-    // For debugging/visualization
-    private void OnDrawGizmos()
-    {
-        if (!isAreaDepleted)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, 1f);
-        }
-        else
-        {
-            Gizmos.color = Color.gray;
-            Gizmos.DrawWireSphere(transform.position, 0.8f);
-        }
-
-        // Show collection count
-#if UNITY_EDITOR
-        UnityEditor.Handles.Label(transform.position + Vector3.up * 2f,
-            $"{itemsCollectedFromArea}/{maxPickupsFromArea}");
-#endif
     }
 }
