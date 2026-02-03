@@ -108,15 +108,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   hips: {fileID: 7229578147140968799}
   animator: {fileID: 0}
+  groundCheckPoint: {fileID: 0}
+  cameraTransform: {fileID: 0}
   isMoving: 0
   isSprinting: 0
   isJumping: 0
   isStrafing_Left: 0
   isStrafing_Right: 0
+  shouldFaceMovementDirection: 1
   speed: 4
   strafeSpeed: 2.5
   sprintSpeed: 6
   jumpForce: 10
+  rotationSpeed: 10
+  groundCheckDistance: 0.3
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!135 &989937183713142124
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -876,7 +884,6 @@ GameObject:
   - component: {fileID: 5248321017159911059}
   - component: {fileID: 974744051733313862}
   - component: {fileID: 1157208680092933029}
-  - component: {fileID: 7577587622382423201}
   - component: {fileID: 2251772511857539674}
   - component: {fileID: 7113860839335538444}
   - component: {fileID: 8560943071869416436}
@@ -959,21 +966,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7577587622382423201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3023162266794140718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f659190ccffce464294548958e927b8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Foot
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!135 &2251772511857539674
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3246,7 +3238,6 @@ GameObject:
   - component: {fileID: 5131843487476894899}
   - component: {fileID: 2184871338200718056}
   - component: {fileID: 103153959918517936}
-  - component: {fileID: 7855604948755453382}
   - component: {fileID: 8110294492402534081}
   - component: {fileID: 3134911802883125695}
   - component: {fileID: 4717719329426518428}
@@ -3329,21 +3320,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7855604948755453382
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7819495798808293107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f659190ccffce464294548958e927b8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Foot
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 8
 --- !u!135 &8110294492402534081
 SphereCollider:
   m_ObjectHideFlags: 0

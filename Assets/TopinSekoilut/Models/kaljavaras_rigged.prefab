@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9119726249539735625}
-  - component: {fileID: 8421172109002123351}
   - component: {fileID: 8486323394420158851}
   m_Layer: 0
   m_Name: Balancer
@@ -33,33 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3335790148520115614}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &8421172109002123351
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5800779954116173219}
-  serializedVersion: 5
-  m_Mass: 3.125
-  m_LinearDamping: 0
-  m_AngularDamping: 1
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!114 &8486323394420158851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Balancer
   target: {fileID: 8526471428886960042}
+  rotationFollowSpeed: 10
 --- !u!1001 &3008864190454864501
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1743,6 +1716,7 @@ MonoBehaviour:
   hips: {fileID: 6861685616402959686}
   animator: {fileID: 0}
   groundCheckPoint: {fileID: 0}
+  orientationRoot: {fileID: 0}
   isMoving: 0
   isSprinting: 0
   isJumping: 0
@@ -1812,7 +1786,7 @@ ConfigurableJoint:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5089635001530116493}
   serializedVersion: 4
-  m_ConnectedBody: {fileID: 8421172109002123351}
+  m_ConnectedBody: {fileID: 0}
   m_ConnectedArticulationBody: {fileID: 0}
   m_Anchor: {x: 0, y: 0.66, z: 0}
   m_Axis: {x: 1, y: 0, z: 0}
