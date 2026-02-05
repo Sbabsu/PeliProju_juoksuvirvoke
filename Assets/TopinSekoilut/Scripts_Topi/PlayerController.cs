@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProtoPlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("---References---")]
     [SerializeField] Rigidbody hips;
@@ -129,7 +129,9 @@ public class ProtoPlayerController : MonoBehaviour
         float currentSpeed = speed;
 
         bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+
         if (isStrafing) currentSpeed = strafeSpeed;
+
 
         if (Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing)
             currentSpeed = sprintSpeed;

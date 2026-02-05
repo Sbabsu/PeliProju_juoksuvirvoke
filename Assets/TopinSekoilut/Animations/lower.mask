@@ -12,29 +12,29 @@ AvatarMask:
   - m_Path: 
     m_Weight: 1
   - m_Path: Armature
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.L/Forearm.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.L/Forearm.L/Hand.L
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.R/Forearm.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Arm.R/Forearm.R/Hand.R
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Neck
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/Stomach/Chest/Neck/Head
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Hip/upperLeg.L
     m_Weight: 1
   - m_Path: Armature/Hip/upperLeg.L/lowerLeg.L
@@ -48,28 +48,28 @@ AvatarMask:
   - m_Path: Armature/Hip/upperLeg.R/lowerLeg.R/Foot.R
     m_Weight: 1
   - m_Path: glasses
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: hat
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: head
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: l_arm
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: l_foot
     m_Weight: 1
   - m_Path: l_hand
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: l_leg
     m_Weight: 1
   - m_Path: nose
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: r_arm
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: r_foot
     m_Weight: 1
   - m_Path: r_hand
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: r_leg
     m_Weight: 1
   - m_Path: torso
-    m_Weight: 1
+    m_Weight: 0
