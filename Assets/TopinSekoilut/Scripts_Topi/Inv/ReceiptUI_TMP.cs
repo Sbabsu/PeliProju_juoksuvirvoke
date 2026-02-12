@@ -16,7 +16,7 @@ public class ReceiptUI_TMP : MonoBehaviour
     public Button mainMenuButton;
 
     [Header("Data")]
-    public Inventory inventory;
+    public InventoryService inventory; // ✅ NEW
 
     [Header("Scene names")]
     public string gameSceneName = "SampleScene";
@@ -26,8 +26,17 @@ public class ReceiptUI_TMP : MonoBehaviour
     {
         if (overlay != null) overlay.SetActive(false);
 
-        if (retryButton != null) retryButton.onClick.AddListener(() => SceneManager.LoadScene(gameSceneName));
-        if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() => SceneManager.LoadScene(mainMenuSceneName));
+        if (retryButton != null) retryButton.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(gameSceneName);
+        });
+
+        if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() =>
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(mainMenuSceneName);
+        });
 
         if (bodyTMP != null)
         {
@@ -35,16 +44,15 @@ public class ReceiptUI_TMP : MonoBehaviour
             bodyTMP.overflowMode = TextOverflowModes.Overflow;
         }
 
-        if (inventory == null) inventory = FindObjectOfType<Inventory>(true);
+        if (inventory == null) inventory = InventoryService.Instance;
     }
 
     public void OpenLevelCompleteReceipt()
     {
         Open();
 
-        if (inventory == null) inventory = FindObjectOfType<Inventory>(true);
+        if (inventory == null) inventory = InventoryService.Instance;
 
-        // ✅ Aika joka EI pysähdy ja alkaa scene startista (GameManager Awake)
         float start = (GameManager.Instance != null) ? GameManager.Instance.RunStartRealtime : 0f;
         float seconds = Time.realtimeSinceStartup - start;
         string timeStr = FormatTime(seconds);
@@ -67,12 +75,14 @@ public class ReceiptUI_TMP : MonoBehaviour
     int GetTotalDrinksFromInventory()
     {
         if (inventory == null) return 0;
+
+        // Uses the new service method (displayName -> count)
         var items = inventory.GetReceiptItemsByName();
         if (items == null || items.Count == 0) return 0;
+
         return items.Sum(k => Mathf.Max(0, k.Value));
     }
 
-    // sun sääntö: 5 olutta ≤20s -> 5★, muuten portaat
     int CalculateStars(float seconds, int beers)
     {
         if (beers <= 0) return 1;
@@ -91,7 +101,6 @@ public class ReceiptUI_TMP : MonoBehaviour
 
         overlay.SetActive(true);
 
-        // voit paussittaa, aika ei silti nollaannu
         Time.timeScale = 0f;
 
         Cursor.visible = true;

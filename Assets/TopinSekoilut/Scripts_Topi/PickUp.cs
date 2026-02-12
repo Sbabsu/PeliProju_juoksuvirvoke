@@ -3,7 +3,7 @@ using UnityEngine;
 public class PickUp : MonoBehaviour
 {
     [Header("Pickup Settings")]
-    public int maxPickupsFromArea = 999999; // ei ylärajaa käytännössä
+    public int maxPickupsFromArea = 999999;
     public string itemId = "beer_can";
     public int amountPerPickup = 1;
 
@@ -15,25 +15,31 @@ public class PickUp : MonoBehaviour
     private bool isAreaDepleted = false;
     private MeshRenderer areaRenderer;
 
+    private InventoryService inv;
+    private InventoryUI invUI;
+
     private void Start()
     {
         areaRenderer = GetComponent<MeshRenderer>();
+        inv = InventoryService.Instance;
+        invUI = Object.FindFirstObjectByType<InventoryUI>();
     }
 
     public void CollectItem()
     {
         if (isAreaDepleted) return;
 
-        // hae Inventory
-        var inv = FindObjectOfType<Inventory>(true);
         if (inv == null)
         {
-            Debug.LogError("PickUp: Inventoryä ei löytynyt scenestä/Playerista.");
+            Debug.LogError("PickUp: InventoryService.Instance missing in scene.");
             return;
         }
 
         itemsCollectedFromArea++;
         inv.AddItem(itemId, amountPerPickup);
+
+        // optional pickup feed
+        if (invUI != null) invUI.ShowPickup(itemId);
 
         if (pickupEffect != null)
             Instantiate(pickupEffect, transform.position, transform.rotation);

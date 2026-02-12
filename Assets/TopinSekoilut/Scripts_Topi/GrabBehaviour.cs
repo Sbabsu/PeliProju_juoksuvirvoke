@@ -12,15 +12,15 @@ public class GrabBehaviour : MonoBehaviour
     public int isLeftOrRight;
     public bool alreadyGrabbed = false;
 
-    private Inventory _inv;
+    private InventoryService _inv; // ✅ NEW
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
 
-        _inv = FindObjectOfType<Inventory>(true);
+        _inv = InventoryService.Instance;
         if (_inv == null)
-            Debug.LogWarning("GrabBehaviour: Inventory not found (auto-pickup will not work).");
+            Debug.LogWarning("GrabBehaviour: InventoryService not found (auto-pickup will not work).");
     }
 
     private void Update()
@@ -62,14 +62,19 @@ public class GrabBehaviour : MonoBehaviour
             grabbedObject = other.gameObject;
         }
 
-        // 2) NEW: Auto-pickup into inventory if item has PickupItem
+        // 2) Auto-pickup into inventory if item has PickUpItem
         var pickupItem = other.GetComponent<PickUpItem>();
         if (pickupItem != null && !pickupItem.pickedUp)
         {
+            if (_inv == null) _inv = InventoryService.Instance;
             if (_inv == null) return;
 
             pickupItem.pickedUp = true;
             _inv.AddItem(pickupItem.itemId, pickupItem.amount);
+
+            // Optional: show pickup feed if you use InventoryUI_TMP
+            var ui = Object.FindFirstObjectByType<InventoryUI>();
+            if (ui != null) ui.ShowPickup(pickupItem.itemId);
 
             if (pickupItem.destroyOnPickup)
             {
