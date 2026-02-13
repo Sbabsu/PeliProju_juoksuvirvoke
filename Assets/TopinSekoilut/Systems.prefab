@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 984784277629285997}
   - component: {fileID: 2699122730964887503}
+  - component: {fileID: 299356719291314836}
   m_Layer: 0
   m_Name: Systems
   m_TagString: Untagged
@@ -45,3 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryService
   database: {fileID: 0}
+--- !u!114 &299356719291314836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4087974161687577899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4606c2f396f9fbf4f9a8e05780a53f04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager

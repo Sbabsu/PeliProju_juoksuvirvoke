@@ -15,9 +15,15 @@ public class InventoryUI : MonoBehaviour
 
     void Awake()
     {
-        inv = InventoryService.Instance;
         if (panel != null) panel.SetActive(false);
     }
+
+    void Start()
+    {
+        inv = InventoryService.Instance;
+        Refresh();
+    }
+
 
     void OnEnable()
     {
