@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -6811788738319108632, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalScale.x
       value: 50
@@ -95,39 +99,16 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8265065154750615145}
+      addedObject: {fileID: 4402303850717824751}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4402303850717824751}
+      addedObject: {fileID: 2566231439907932544}
   m_SourcePrefab: {fileID: 100100000, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
 --- !u!1 &624361848008998947 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
   m_PrefabInstance: {fileID: 318423081782558066}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &8265065154750615145
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 624361848008998947}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 1
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &4402303850717824751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +125,26 @@ MonoBehaviour:
   amount: 1
   destroyOnPickup: 1
   pickedUp: 0
+--- !u!136 &2566231439907932544
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624361848008998947}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 32.768776
+  m_Height: 110.804344
+  m_Direction: 1
+  m_Center: {x: 0.51965714, y: 49.7061, z: -0.59657097}
