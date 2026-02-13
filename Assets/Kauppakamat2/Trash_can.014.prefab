@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5712188235680720353}
   - component: {fileID: 2065919128797164678}
   - component: {fileID: 2242903670928809513}
+  - component: {fileID: 4827396268384983608}
   m_Layer: 0
   m_Name: Trash_can.014
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.5, y: 0.49999997, z: 0.5, w: -0.5}
   m_LocalPosition: {x: 12.802006, y: 2.9185753, z: 1.4868984}
-  m_LocalScale: {x: 135.99335, y: 135.99335, z: 135.99335}
+  m_LocalScale: {x: 189.5, y: 189.5, z: 189.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -91,3 +92,24 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &4827396268384983608
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 72349228297409344}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0055822325, y: 0.003911734, z: 0.0036901154}
+  m_Center: {x: -6.0052796e-12, y: -0.0000000018686503, z: -0.00020150188}
