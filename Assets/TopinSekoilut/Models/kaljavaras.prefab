@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 5413813013459946002}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.982028, y: 3.3579996, z: -4.2704563}
+  m_LocalPosition: {x: 0, y: 1.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1604,6 +1604,7 @@ MonoBehaviour:
   animRoot: {fileID: 0}
   balancerRb: {fileID: 4088716379825924766}
   isMoving: 0
+  isStrafing: 0
   isSprinting: 0
   isJumping: 0
   isStrafing_Left: 0
@@ -1611,7 +1612,7 @@ MonoBehaviour:
   speed: 2
   strafeSpeed: 1.5
   sprintSpeed: 4
-  jumpForce: 80
+  jumpForce: 150
   turnSpeed: 10
   forwardThreshold: 0.1
   groundCheckDistance: 1.52

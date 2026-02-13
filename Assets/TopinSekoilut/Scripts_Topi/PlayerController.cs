@@ -11,9 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform animRoot;
     [SerializeField] Rigidbody balancerRb;
 
-
     [Header("---Booleans---")]
     [SerializeField] bool isMoving;
+    [SerializeField] bool isStrafing;
     [SerializeField] bool isSprinting;
     [SerializeField] bool isJumping;
     [SerializeField] bool isStrafing_Left;
@@ -34,10 +34,15 @@ public class PlayerController : MonoBehaviour
     private bool _isGrounded;
     private bool _jumpRequested;
     private bool _canMove = true;
+
+    // Cached camera vectors (updated in Update, used in FixedUpdate)
+    private Vector3 _camForwardFlat;
+    private Vector3 _camRightFlat;
+
     private Vector3 _facingDir = Vector3.forward; // remembered facing
+
     private void Start()
     {
-
         if (groundCheckPoint == null)
         {
             GameObject groundCheck = new GameObject("GroundCheck");
@@ -56,53 +61,63 @@ public class PlayerController : MonoBehaviour
 
         CheckGround();
 
-        if (Input.GetButtonDown("Jump") && _isGrounded)
+        // Cache camera vectors once per rendered frame (plays nicer with Cinemachine)
+        Transform cam = Camera.main.transform;
+
+        _camForwardFlat = cam.forward;
+        _camForwardFlat.y = 0f;
+        if (_camForwardFlat.sqrMagnitude > 0.0001f) _camForwardFlat.Normalize();
+
+        _camRightFlat = cam.right;
+        _camRightFlat.y = 0f;
+        if (_camRightFlat.sqrMagnitude > 0.0001f) _camRightFlat.Normalize();
+
+        // Jump request
+        animator.SetBool("isJumping", !_isGrounded);
+        if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Return)) && _isGrounded)
             _jumpRequested = true;
 
+        // Pickup
         if (Input.GetKeyDown(KeyCode.E) && _currentPickup != null)
             CollectPickup();
 
-        float vertical = Input.GetAxis("Vertical");
-        float horizontal = Input.GetAxis("Horizontal");
+        // Movement input (WASD + Arrow keys)
+        Vector2 input = GetMovementInput();
+        float vertical = input.y;
+        float horizontal = input.x;
 
         isMoving = Mathf.Abs(vertical) > 0.1f || Mathf.Abs(horizontal) > 0.1f;
-        isStrafing_Left = horizontal < -0.1f;
-        isStrafing_Right = horizontal > 0.1f;
 
+        isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+        isStrafing_Left = isStrafing && horizontal < -0.1f;
+        isStrafing_Right = isStrafing && horizontal > 0.1f;
+
+        isSprinting = Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing;
+
+        // Animator params
         animator.SetBool("isMoving", isMoving);
+        animator.SetBool("isStrafing", isStrafing);
         animator.SetBool("isStrafing_Left", isStrafing_Left);
         animator.SetBool("isStrafing_Right", isStrafing_Right);
-        animator.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) && isMoving);
-        animator.SetBool("isJumping", !_isGrounded && hips.linearVelocity.y > 0.1f);
+        animator.SetBool("isSprinting", isSprinting);
     }
 
     private void FixedUpdate()
     {
         if (!_canMove) return;
 
-        float vertical = Input.GetAxis("Vertical");
-        float horizontal = Input.GetAxis("Horizontal");
+        Vector2 input = GetMovementInput();
+        float vertical = input.y;
+        float horizontal = input.x;
 
-        // --- CAMERA RELATIVE MOVEMENT ---
-        Transform cam = Camera.main.transform;
+        // Camera-relative movement using cached vectors
+        Vector3 moveDir = _camForwardFlat * vertical + _camRightFlat * horizontal;
+        if (moveDir.sqrMagnitude > 1f) moveDir.Normalize();
 
-        Vector3 camForward = cam.forward;
-        camForward.y = 0;
-        camForward.Normalize();
-
-        Vector3 camRight = cam.right;
-        camRight.y = 0;
-        camRight.Normalize();
-
-        Vector3 moveDir = camForward * vertical + camRight * horizontal;
-        if (moveDir.sqrMagnitude > 1f)
-            moveDir.Normalize();
-
-        // Update facing ONLY when moving forward (W)
+        // Update facing ONLY when moving forward
         if (vertical > forwardThreshold)
         {
-            Vector3 f = camForward;
-            f.y = 0f;
+            Vector3 f = _camForwardFlat;
             if (f.sqrMagnitude > 0.001f)
                 _facingDir = f.normalized;
         }
@@ -113,6 +128,7 @@ public class PlayerController : MonoBehaviour
             Quaternion animTarget = Quaternion.LookRotation(_facingDir, Vector3.up);
             animRoot.rotation = Quaternion.Slerp(animRoot.rotation, animTarget, turnSpeed * Time.fixedDeltaTime);
         }
+
         // Rotate BALANCER root ONLY when moving forward
         if (vertical > forwardThreshold && _facingDir.sqrMagnitude > 0.001f && balancerRb != null)
         {
@@ -128,12 +144,10 @@ public class PlayerController : MonoBehaviour
 
         float currentSpeed = speed;
 
-        bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+        bool strafingNow = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+        if (strafingNow) currentSpeed = strafeSpeed;
 
-        if (isStrafing) currentSpeed = strafeSpeed;
-
-
-        if (Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing)
+        if (Input.GetKey(KeyCode.LeftShift) && isMoving && !strafingNow)
             currentSpeed = sprintSpeed;
 
         Vector3 desiredVelocity = moveDir * currentSpeed;
@@ -157,7 +171,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         hips.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        animator.SetBool("isJumping", true);
+        // isJumping bool is driven by grounded state in Update()
     }
 
     private void OnTriggerEnter(Collider other)
@@ -185,5 +199,34 @@ public class PlayerController : MonoBehaviour
         _canMove = enabled;
         if (!enabled)
             hips.linearVelocity = new Vector3(0, hips.linearVelocity.y, 0);
+    }
+
+    // Arrow keys input
+    private Vector2 GetAlternativeMovementInput()
+    {
+        float vertical = 0f;
+        float horizontal = 0f;
+
+        if (Input.GetKey(KeyCode.UpArrow)) vertical += 1f;
+        if (Input.GetKey(KeyCode.DownArrow)) vertical -= 1f;
+        if (Input.GetKey(KeyCode.RightArrow)) horizontal += 1f;
+        if (Input.GetKey(KeyCode.LeftArrow)) horizontal -= 1f;
+
+        Vector2 input = new Vector2(horizontal, vertical);
+        if (input.magnitude > 1f) input.Normalize();
+        return input;
+    }
+
+    // WASD axes + Arrow override
+    private Vector2 GetMovementInput()
+    {
+        float vertical = Input.GetAxis("Vertical");
+        float horizontal = Input.GetAxis("Horizontal");
+
+        Vector2 altInput = GetAlternativeMovementInput();
+        if (altInput.sqrMagnitude > 0f)
+            return altInput;
+
+        return new Vector2(horizontal, vertical);
     }
 }
