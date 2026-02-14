@@ -48,6 +48,10 @@ public class PlayerController : MonoBehaviour
     private bool _canMove = true;
 
     private Vector3 _facingDir = Vector3.forward; // remembered facing
+    // --- Powerups: speed boost ---
+    private float _speedMultiplier = 1f;
+    private Coroutine _speedRoutine;
+
 
     private void Start()
     {
@@ -182,13 +186,14 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        float currentSpeed = speed;
+        float currentSpeed = speed * _speedMultiplier;
+
 
         bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
-        if (isStrafing) currentSpeed = strafeSpeed;
+        if (isStrafing) currentSpeed = strafeSpeed * _speedMultiplier;
 
         if (isSprinting)
-            currentSpeed = sprintSpeed;
+            currentSpeed = sprintSpeed * _speedMultiplier;
 
         Vector3 desiredVelocity = moveDir * currentSpeed;
         desiredVelocity.y = hips.linearVelocity.y;
@@ -280,4 +285,23 @@ public class PlayerController : MonoBehaviour
 
         return new Vector2(horizontal, vertical);
     }
+    public void ApplySpeedMultiplier(float multiplier, float duration)
+    {
+    if (_speedRoutine != null)
+        StopCoroutine(_speedRoutine);
+
+        _speedRoutine = StartCoroutine(SpeedRoutine(multiplier, duration));
+    }
+
+    private IEnumerator SpeedRoutine(float multiplier, float duration)
+    {
+    float original = _speedMultiplier;
+        _speedMultiplier = original * multiplier;
+
+    yield return new WaitForSeconds(duration);
+
+        _speedMultiplier = original;
+        _speedRoutine = null;
+    }
+
 }

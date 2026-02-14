@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - beer_can
+  - Guard
   layers:
   - Default
   - TransparentFX
