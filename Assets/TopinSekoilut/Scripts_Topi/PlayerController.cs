@@ -35,10 +35,6 @@ public class PlayerController : MonoBehaviour
     private bool _jumpRequested;
     private bool _canMove = true;
 
-    // Cached camera vectors (updated in Update, used in FixedUpdate)
-    private Vector3 _camForwardFlat;
-    private Vector3 _camRightFlat;
-
     private Vector3 _facingDir = Vector3.forward; // remembered facing
 
     private void Start()
@@ -61,27 +57,12 @@ public class PlayerController : MonoBehaviour
 
         CheckGround();
 
-        // Cache camera vectors once per rendered frame (plays nicer with Cinemachine)
-        Transform cam = Camera.main.transform;
-
-        _camForwardFlat = cam.forward;
-        _camForwardFlat.y = 0f;
-        if (_camForwardFlat.sqrMagnitude > 0.0001f) _camForwardFlat.Normalize();
-
-        _camRightFlat = cam.right;
-        _camRightFlat.y = 0f;
-        if (_camRightFlat.sqrMagnitude > 0.0001f) _camRightFlat.Normalize();
-
-        // Jump request
-        animator.SetBool("isJumping", !_isGrounded);
         if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Return)) && _isGrounded)
             _jumpRequested = true;
 
-        // Pickup
         if (Input.GetKeyDown(KeyCode.E) && _currentPickup != null)
             CollectPickup();
 
-        // Movement input (WASD + Arrow keys)
         Vector2 input = GetMovementInput();
         float vertical = input.y;
         float horizontal = input.x;
@@ -92,14 +73,13 @@ public class PlayerController : MonoBehaviour
         isStrafing_Left = isStrafing && horizontal < -0.1f;
         isStrafing_Right = isStrafing && horizontal > 0.1f;
 
-        isSprinting = Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing;
-
-        // Animator params
         animator.SetBool("isMoving", isMoving);
         animator.SetBool("isStrafing", isStrafing);
         animator.SetBool("isStrafing_Left", isStrafing_Left);
         animator.SetBool("isStrafing_Right", isStrafing_Right);
-        animator.SetBool("isSprinting", isSprinting);
+
+        // don’t allow sprint while strafing
+        animator.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing);
     }
 
     private void FixedUpdate()
@@ -110,14 +90,26 @@ public class PlayerController : MonoBehaviour
         float vertical = input.y;
         float horizontal = input.x;
 
-        // Camera-relative movement using cached vectors
-        Vector3 moveDir = _camForwardFlat * vertical + _camRightFlat * horizontal;
-        if (moveDir.sqrMagnitude > 1f) moveDir.Normalize();
+        // --- CAMERA RELATIVE MOVEMENT ---
+        Transform cam = Camera.main.transform;
 
-        // Update facing ONLY when moving forward
+        Vector3 camForward = cam.forward;
+        camForward.y = 0;
+        camForward.Normalize();
+
+        Vector3 camRight = cam.right;
+        camRight.y = 0;
+        camRight.Normalize();
+
+        Vector3 moveDir = camForward * vertical + camRight * horizontal;
+        if (moveDir.sqrMagnitude > 1f)
+            moveDir.Normalize();
+
+        // Update facing ONLY when moving forward (W)
         if (vertical > forwardThreshold)
         {
-            Vector3 f = _camForwardFlat;
+            Vector3 f = camForward;
+            f.y = 0f;
             if (f.sqrMagnitude > 0.001f)
                 _facingDir = f.normalized;
         }
@@ -144,10 +136,10 @@ public class PlayerController : MonoBehaviour
 
         float currentSpeed = speed;
 
-        bool strafingNow = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
-        if (strafingNow) currentSpeed = strafeSpeed;
+        bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+        if (isStrafing) currentSpeed = strafeSpeed;
 
-        if (Input.GetKey(KeyCode.LeftShift) && isMoving && !strafingNow)
+        if (Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing)
             currentSpeed = sprintSpeed;
 
         Vector3 desiredVelocity = moveDir * currentSpeed;
@@ -171,7 +163,7 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         hips.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        // isJumping bool is driven by grounded state in Update()
+        animator.SetBool("isJumping", true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -201,29 +193,40 @@ public class PlayerController : MonoBehaviour
             hips.linearVelocity = new Vector3(0, hips.linearVelocity.y, 0);
     }
 
-    // Arrow keys input
     private Vector2 GetAlternativeMovementInput()
     {
         float vertical = 0f;
         float horizontal = 0f;
 
-        if (Input.GetKey(KeyCode.UpArrow)) vertical += 1f;
-        if (Input.GetKey(KeyCode.DownArrow)) vertical -= 1f;
-        if (Input.GetKey(KeyCode.RightArrow)) horizontal += 1f;
-        if (Input.GetKey(KeyCode.LeftArrow)) horizontal -= 1f;
+        if (Input.GetKey(KeyCode.UpArrow))
+            vertical += 1f;
+
+        if (Input.GetKey(KeyCode.DownArrow))
+            vertical -= 1f;
+
+        if (Input.GetKey(KeyCode.RightArrow))
+            horizontal += 1f;
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+            horizontal -= 1f;
 
         Vector2 input = new Vector2(horizontal, vertical);
-        if (input.magnitude > 1f) input.Normalize();
+        if (input.magnitude > 1f)
+            input.Normalize();
+
         return input;
     }
 
-    // WASD axes + Arrow override
     private Vector2 GetMovementInput()
     {
+        // Default WASD / Input Manager axes
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
+        // Alternative arrow keys
         Vector2 altInput = GetAlternativeMovementInput();
+
+        // If arrow keys are being pressed, override default input
         if (altInput.sqrMagnitude > 0f)
             return altInput;
 
