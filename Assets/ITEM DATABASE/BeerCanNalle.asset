@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a88f5c361355ce7439ea240925491666, type: 3}
-  m_Name: BeerCan
+  m_Name: BeerCanNalle
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  id: beer_can
+  id: beer_can_nalle
   displayName: "\xF6lpp\xF6ne"
   icon: {fileID: 0}
+  worldPrefab: {fileID: 2514133229599788218, guid: 802fc9446eeceb848939d5e2236f8243, type: 3}
