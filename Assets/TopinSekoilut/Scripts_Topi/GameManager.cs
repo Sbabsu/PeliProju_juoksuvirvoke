@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 120;
+        Application.targetFrameRate = 144;
     }
 
     // Exitille pääsee aina
