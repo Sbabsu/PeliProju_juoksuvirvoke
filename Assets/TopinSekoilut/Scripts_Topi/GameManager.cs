@@ -19,6 +19,11 @@ public class GameManager : MonoBehaviour
         RunStartRealtime = Time.realtimeSinceStartup;
     }
 
+    private void Start()
+    {
+        Application.targetFrameRate = 120;
+    }
+
     // Exitille pääsee aina
     public bool IsExitEnabled() => true;
 }

@@ -26,18 +26,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpForce = 7f;
     [SerializeField] float turnSpeed = 12f;
     [SerializeField] float forwardThreshold = 0.1f;
+    [SerializeField] float maxVelocityChangePerFixed = 6f;
 
     [Header("---Stamina---")]
-    [SerializeField] float maxStamina = 5f;              // seconds of sprint
-    [SerializeField] float staminaDrainPerSecond = 1f;   // 1 = drains maxStamina in 5s if maxStamina=5
-    [SerializeField] float staminaRegenPerSecond = 0.8f; // regen speed
-    [SerializeField] float regenDelay = 1.0f;            // wait after sprint stops before regen
-    [SerializeField] float sprintReenableThreshold = 0.5f; // must regen to this to sprint again
+    [SerializeField] float maxStamina = 5f;
+    [SerializeField] float staminaDrainPerSecond = 1f;
+    [SerializeField] float staminaRegenPerSecond = 0.8f;
+    [SerializeField] float regenDelay = 1.0f;
+    [SerializeField] float sprintReenableThreshold = 0.5f;
 
     private float _stamina;
     private float _regenTimer;
-    private bool _sprintBlocked; // true when stamina is empty
-
+    private bool _sprintBlocked;
 
     [SerializeField] float groundCheckDistance = 0.3f;
     [SerializeField] LayerMask groundMask;
@@ -47,14 +47,19 @@ public class PlayerController : MonoBehaviour
     private bool _jumpRequested;
     private bool _canMove = true;
 
-    private Vector3 _facingDir = Vector3.forward; // remembered facing
+    private Vector3 _camForward;
+    private Vector3 _camRight;
+
+    private Vector3 _facingDir = Vector3.forward;
+
     // --- Powerups: speed boost ---
     private float _speedMultiplier = 1f;
     private Coroutine _speedRoutine;
 
-
     private void Start()
     {
+        if (hips == null) hips = GetComponent<Rigidbody>();
+
         if (groundCheckPoint == null)
         {
             GameObject groundCheck = new GameObject("GroundCheck");
@@ -65,6 +70,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
         _stamina = maxStamina;
     }
 
@@ -72,7 +78,26 @@ public class PlayerController : MonoBehaviour
     {
         if (!_canMove) return;
 
+        // Cache camera yaw basis once per rendered frame
+        var cam = Camera.main != null ? Camera.main.transform : null;
+        if (cam != null)
+        {
+            float yaw = cam.eulerAngles.y;
+            Quaternion yawRot = Quaternion.Euler(0f, yaw, 0f);
+            _camForward = yawRot * Vector3.forward;
+            _camRight = yawRot * Vector3.right;
+        }
+        else
+        {
+            _camForward = Vector3.forward;
+            _camRight = Vector3.right;
+        }
+
         CheckGround();
+
+        // Drive jump anim from grounded state (prevents it getting stuck)
+        if (animator != null)
+            animator.SetBool("isJumping", !_isGrounded);
 
         if ((Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Return)) && _isGrounded)
             _jumpRequested = true;
@@ -90,22 +115,22 @@ public class PlayerController : MonoBehaviour
         isStrafing_Left = isStrafing && horizontal < -0.1f;
         isStrafing_Right = isStrafing && horizontal > 0.1f;
 
-        animator.SetBool("isMoving", isMoving);
-        animator.SetBool("isStrafing", isStrafing);
-        animator.SetBool("isStrafing_Left", isStrafing_Left);
-        animator.SetBool("isStrafing_Right", isStrafing_Right);
+        if (animator != null)
+        {
+            animator.SetBool("isMoving", isMoving);
+            animator.SetBool("isStrafing", isStrafing);
+            animator.SetBool("isStrafing_Left", isStrafing_Left);
+            animator.SetBool("isStrafing_Right", isStrafing_Right);
+        }
 
         bool sprintKey = Input.GetKey(KeyCode.LeftShift);
         bool wantsSprint = sprintKey && isMoving && !isStrafing;
 
-        // If stamina recovered enough, unblock sprinting
         if (_sprintBlocked && _stamina >= sprintReenableThreshold)
             _sprintBlocked = false;
 
-        // Decide if we can sprint this frame
         isSprinting = wantsSprint && !_sprintBlocked && _stamina > 0.01f;
 
-        // Drain / regen stamina
         if (isSprinting)
         {
             _stamina -= staminaDrainPerSecond * Time.deltaTime;
@@ -115,15 +140,12 @@ public class PlayerController : MonoBehaviour
             {
                 _stamina = 0f;
                 _sprintBlocked = true;
-                isSprinting = false; // stop sprint immediately
+                isSprinting = false;
             }
         }
         else
         {
-            if (_regenTimer > 0f)
-            {
-                _regenTimer -= Time.deltaTime;
-            }
+            if (_regenTimer > 0f) _regenTimer -= Time.deltaTime;
             else
             {
                 _stamina += staminaRegenPerSecond * Time.deltaTime;
@@ -131,7 +153,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        animator.SetBool("isSprinting", isSprinting);
+        if (animator != null)
+            animator.SetBool("isSprinting", isSprinting);
     }
 
     private void FixedUpdate()
@@ -142,63 +165,48 @@ public class PlayerController : MonoBehaviour
         float vertical = input.y;
         float horizontal = input.x;
 
-        // --- CAMERA RELATIVE MOVEMENT ---
-        Transform cam = Camera.main.transform;
+        Vector3 moveDir = _camForward * vertical + _camRight * horizontal;
+        if (moveDir.sqrMagnitude > 1f) moveDir.Normalize();
 
-        Vector3 camForward = cam.forward;
-        camForward.y = 0;
-        camForward.Normalize();
-
-        Vector3 camRight = cam.right;
-        camRight.y = 0;
-        camRight.Normalize();
-
-        Vector3 moveDir = camForward * vertical + camRight * horizontal;
-        if (moveDir.sqrMagnitude > 1f)
-            moveDir.Normalize();
-
-        // Update facing ONLY when moving forward (W)
+        // Update facing ONLY when moving forward
         if (vertical > forwardThreshold)
         {
-            Vector3 f = camForward;
-            f.y = 0f;
+            Vector3 f = _camForward;
             if (f.sqrMagnitude > 0.001f)
                 _facingDir = f.normalized;
         }
 
-        // Rotate animated copy root always toward remembered facing
         if (animRoot != null && _facingDir.sqrMagnitude > 0.001f)
         {
             Quaternion animTarget = Quaternion.LookRotation(_facingDir, Vector3.up);
             animRoot.rotation = Quaternion.Slerp(animRoot.rotation, animTarget, turnSpeed * Time.fixedDeltaTime);
         }
 
-        // Rotate BALANCER root ONLY when moving forward
         if (vertical > forwardThreshold && _facingDir.sqrMagnitude > 0.001f && balancerRb != null)
         {
-            Vector3 flat = _facingDir;
-            flat.y = 0f;
-
-            if (flat.sqrMagnitude > 0.001f)
-            {
-                Quaternion target = Quaternion.LookRotation(flat.normalized, Vector3.up);
-                balancerRb.MoveRotation(Quaternion.Slerp(balancerRb.rotation, target, turnSpeed * Time.fixedDeltaTime));
-            }
+            Quaternion target = Quaternion.LookRotation(_facingDir, Vector3.up);
+            balancerRb.MoveRotation(Quaternion.Slerp(balancerRb.rotation, target, turnSpeed * Time.fixedDeltaTime));
         }
 
         float currentSpeed = speed * _speedMultiplier;
 
+        bool strafingNow = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
+        if (strafingNow) currentSpeed = strafeSpeed * _speedMultiplier;
 
-        bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
-        if (isStrafing) currentSpeed = strafeSpeed * _speedMultiplier;
+        if (isSprinting) currentSpeed = sprintSpeed * _speedMultiplier;
 
-        if (isSprinting)
-            currentSpeed = sprintSpeed * _speedMultiplier;
+        Vector3 desiredHorizontal = moveDir * currentSpeed;
 
-        Vector3 desiredVelocity = moveDir * currentSpeed;
-        desiredVelocity.y = hips.linearVelocity.y;
+        Vector3 currentVel = hips.linearVelocity;
+        Vector3 currentHorizontal = new Vector3(currentVel.x, 0f, currentVel.z);
+        Vector3 targetHorizontal = new Vector3(desiredHorizontal.x, 0f, desiredHorizontal.z);
 
-        hips.linearVelocity = desiredVelocity;
+        Vector3 delta = targetHorizontal - currentHorizontal;
+
+        if (delta.magnitude > maxVelocityChangePerFixed)
+            delta = delta.normalized * maxVelocityChangePerFixed;
+
+        hips.AddForce(delta, ForceMode.VelocityChange);
 
         if (_jumpRequested && _isGrounded)
         {
@@ -216,7 +224,6 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         hips.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        animator.SetBool("isJumping", true);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -242,7 +249,7 @@ public class PlayerController : MonoBehaviour
     public void SetMovementEnabled(bool enabled)
     {
         _canMove = enabled;
-        if (!enabled)
+        if (!enabled && hips != null)
             hips.linearVelocity = new Vector3(0, hips.linearVelocity.y, 0);
     }
 
@@ -251,57 +258,45 @@ public class PlayerController : MonoBehaviour
         float vertical = 0f;
         float horizontal = 0f;
 
-        if (Input.GetKey(KeyCode.UpArrow))
-            vertical += 1f;
-
-        if (Input.GetKey(KeyCode.DownArrow))
-            vertical -= 1f;
-
-        if (Input.GetKey(KeyCode.RightArrow))
-            horizontal += 1f;
-
-        if (Input.GetKey(KeyCode.LeftArrow))
-            horizontal -= 1f;
+        if (Input.GetKey(KeyCode.UpArrow)) vertical += 1f;
+        if (Input.GetKey(KeyCode.DownArrow)) vertical -= 1f;
+        if (Input.GetKey(KeyCode.RightArrow)) horizontal += 1f;
+        if (Input.GetKey(KeyCode.LeftArrow)) horizontal -= 1f;
 
         Vector2 input = new Vector2(horizontal, vertical);
-        if (input.magnitude > 1f)
-            input.Normalize();
+        if (input.magnitude > 1f) input.Normalize();
 
         return input;
     }
 
     private Vector2 GetMovementInput()
     {
-        // Default WASD / Input Manager axes
         float vertical = Input.GetAxis("Vertical");
         float horizontal = Input.GetAxis("Horizontal");
 
-        // Alternative arrow keys
         Vector2 altInput = GetAlternativeMovementInput();
-
-        // If arrow keys are being pressed, override default input
         if (altInput.sqrMagnitude > 0f)
             return altInput;
 
         return new Vector2(horizontal, vertical);
     }
+
     public void ApplySpeedMultiplier(float multiplier, float duration)
     {
-    if (_speedRoutine != null)
-        StopCoroutine(_speedRoutine);
+        if (_speedRoutine != null)
+            StopCoroutine(_speedRoutine);
 
         _speedRoutine = StartCoroutine(SpeedRoutine(multiplier, duration));
     }
 
     private IEnumerator SpeedRoutine(float multiplier, float duration)
     {
-    float original = _speedMultiplier;
+        float original = _speedMultiplier;
         _speedMultiplier = original * multiplier;
 
-    yield return new WaitForSeconds(duration);
+        yield return new WaitForSeconds(duration);
 
         _speedMultiplier = original;
         _speedRoutine = null;
     }
-
 }
