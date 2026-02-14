@@ -345,6 +345,9 @@ PrefabInstance:
       addedObject: {fileID: 8493454250588941698}
     - targetCorrespondingSourceObject: {fileID: -4706303714589870382, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 7822645192980595664}
+    - targetCorrespondingSourceObject: {fileID: -4706303714589870382, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 4159055206034545936}
     - targetCorrespondingSourceObject: {fileID: 8765841453368822634, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
@@ -388,6 +391,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3028243333643176680, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2389881477290324294}
+    - targetCorrespondingSourceObject: {fileID: -3028243333643176680, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 18527749167075334}
     - targetCorrespondingSourceObject: {fileID: -3028243333643176680, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
       addedObject: {fileID: 575922065761089101}
@@ -509,7 +515,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 111029611655078708}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7eeb2499baa222745adbcd2e5834d767, type: 3}
   m_Name: 
@@ -519,6 +525,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   rb: {fileID: 0}
+  isLeftOrRight: 1
+  alreadyGrabbed: 0
+--- !u!114 &18527749167075334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111029611655078708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c77c1b493a1a440b9c113fab364154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabBehaviourSpring
+  animator: {fileID: 0}
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  rb: {fileID: 0}
+  spring: 50000
+  damper: 5000
+  maxDistance: 0.5
+  heldExtraDrag: 1.5
+  heldExtraAngularDrag: 1.5
+  heldMassScale: 1
+  handMassScale: 50
+  breakForce: 1000
+  breakTorque: 1000
   isLeftOrRight: 1
   alreadyGrabbed: 0
 --- !u!54 &575922065761089101
@@ -1615,6 +1649,11 @@ MonoBehaviour:
   jumpForce: 150
   turnSpeed: 10
   forwardThreshold: 0.1
+  maxStamina: 5
+  staminaDrainPerSecond: 1
+  staminaRegenPerSecond: 0.8
+  regenDelay: 1
+  sprintReenableThreshold: 0.5
   groundCheckDistance: 1.52
   groundMask:
     serializedVersion: 2
@@ -2682,7 +2721,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7700075472335675646}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7eeb2499baa222745adbcd2e5834d767, type: 3}
   m_Name: 
@@ -2692,6 +2731,34 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   rb: {fileID: 0}
+  isLeftOrRight: 0
+  alreadyGrabbed: 0
+--- !u!114 &7822645192980595664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700075472335675646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25c77c1b493a1a440b9c113fab364154, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GrabBehaviourSpring
+  animator: {fileID: 0}
+  grabbableLayers:
+    serializedVersion: 2
+    m_Bits: 512
+  rb: {fileID: 0}
+  spring: 50000
+  damper: 5000
+  maxDistance: 0.5
+  heldExtraDrag: 1.5
+  heldExtraAngularDrag: 1.5
+  heldMassScale: 1
+  handMassScale: 50
+  breakForce: 1000
+  breakTorque: 1000
   isLeftOrRight: 0
   alreadyGrabbed: 0
 --- !u!54 &4159055206034545936

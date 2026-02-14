@@ -27,6 +27,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float turnSpeed = 12f;
     [SerializeField] float forwardThreshold = 0.1f;
 
+    [Header("---Stamina---")]
+    [SerializeField] float maxStamina = 5f;              // seconds of sprint
+    [SerializeField] float staminaDrainPerSecond = 1f;   // 1 = drains maxStamina in 5s if maxStamina=5
+    [SerializeField] float staminaRegenPerSecond = 0.8f; // regen speed
+    [SerializeField] float regenDelay = 1.0f;            // wait after sprint stops before regen
+    [SerializeField] float sprintReenableThreshold = 0.5f; // must regen to this to sprint again
+
+    private float _stamina;
+    private float _regenTimer;
+    private bool _sprintBlocked; // true when stamina is empty
+
+
     [SerializeField] float groundCheckDistance = 0.3f;
     [SerializeField] LayerMask groundMask;
 
@@ -49,6 +61,7 @@ public class PlayerController : MonoBehaviour
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        _stamina = maxStamina;
     }
 
     private void Update()
@@ -78,8 +91,43 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isStrafing_Left", isStrafing_Left);
         animator.SetBool("isStrafing_Right", isStrafing_Right);
 
-        // don’t allow sprint while strafing
-        animator.SetBool("isSprinting", Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing);
+        bool sprintKey = Input.GetKey(KeyCode.LeftShift);
+        bool wantsSprint = sprintKey && isMoving && !isStrafing;
+
+        // If stamina recovered enough, unblock sprinting
+        if (_sprintBlocked && _stamina >= sprintReenableThreshold)
+            _sprintBlocked = false;
+
+        // Decide if we can sprint this frame
+        isSprinting = wantsSprint && !_sprintBlocked && _stamina > 0.01f;
+
+        // Drain / regen stamina
+        if (isSprinting)
+        {
+            _stamina -= staminaDrainPerSecond * Time.deltaTime;
+            _regenTimer = regenDelay;
+
+            if (_stamina <= 0f)
+            {
+                _stamina = 0f;
+                _sprintBlocked = true;
+                isSprinting = false; // stop sprint immediately
+            }
+        }
+        else
+        {
+            if (_regenTimer > 0f)
+            {
+                _regenTimer -= Time.deltaTime;
+            }
+            else
+            {
+                _stamina += staminaRegenPerSecond * Time.deltaTime;
+                if (_stamina > maxStamina) _stamina = maxStamina;
+            }
+        }
+
+        animator.SetBool("isSprinting", isSprinting);
     }
 
     private void FixedUpdate()
@@ -139,7 +187,7 @@ public class PlayerController : MonoBehaviour
         bool isStrafing = Mathf.Abs(horizontal) > 0.1f && Mathf.Abs(vertical) < 0.1f;
         if (isStrafing) currentSpeed = strafeSpeed;
 
-        if (Input.GetKey(KeyCode.LeftShift) && isMoving && !isStrafing)
+        if (isSprinting)
             currentSpeed = sprintSpeed;
 
         Vector3 desiredVelocity = moveDir * currentSpeed;
