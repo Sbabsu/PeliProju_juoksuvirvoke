@@ -1190,7 +1190,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -2379,8 +2379,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUp
   maxPickupsFromArea: 3
-  itemId: beer_can
-  amountPerPickup: 1
+  possibleItems:
+  - itemId: beer_glass
+    amountMin: 1
+    amountMax: 1
+    weight: 1
+  - itemId: beer_bottle_nalle
+    amountMin: 1
+    amountMax: 1
+    weight: 1
+  randomEachPickup: 1
   pickupEffect: {fileID: 0}
   collectedMaterial: {fileID: 0}
 --- !u!1 &8381624607009467163
