@@ -8614,6 +8614,10 @@ PrefabInstance:
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}
+    - target: {fileID: 5709915227267991720, guid: 7cbe1957527218f4a952a28226dad127, type: 3}
+      propertyPath: possibleItems.Array.data[1].itemId
+      value: beer_can_nalle
+      objectReference: {fileID: 0}
     - target: {fileID: 5780557527454705566, guid: 7cbe1957527218f4a952a28226dad127, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
