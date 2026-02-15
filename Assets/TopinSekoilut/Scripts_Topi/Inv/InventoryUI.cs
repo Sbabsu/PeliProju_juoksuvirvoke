@@ -11,11 +11,29 @@ public class InventoryUI : MonoBehaviour
     [Header("Optional: pickup feed UI")]
     public PickupFeedUI pickupFeed;
 
+    [Header("Audio")]
+    public AudioSource audioSource;
+    public AudioClip openSfx;
+    public AudioClip closeSfx;
+
+    [Header("Safety")]
+    [Tooltip("Estää Tabin / kutsujen tuplalaukaukset (sekunteina).")]
+    public float toggleCooldown = 0.15f;
+
+    private float nextToggleTime;
+    private bool isOpen;                 // pidetään oma tila varmana
+    private bool openSfxPlayedThisOpen;  // guard: open ääni vain kerran per avaus
+
     private InventoryService inv;
 
     void Awake()
     {
         if (panel != null) panel.SetActive(false);
+        isOpen = false;
+        openSfxPlayedThisOpen = false;
+
+        if (audioSource == null) audioSource = GetComponent<AudioSource>();
+        if (audioSource != null) audioSource.loop = false; // varmuus
     }
 
     void Start()
@@ -23,7 +41,6 @@ public class InventoryUI : MonoBehaviour
         inv = InventoryService.Instance;
         Refresh();
     }
-
 
     void OnEnable()
     {
@@ -41,29 +58,59 @@ public class InventoryUI : MonoBehaviour
     {
         if (panel == null) return;
 
-        bool willOpen = !panel.activeSelf;
-        panel.SetActive(willOpen);
+        // estä spam / tuplakutsu
+        if (Time.unscaledTime < nextToggleTime) return;
+        nextToggleTime = Time.unscaledTime + toggleCooldown;
 
-        if (willOpen)
+        isOpen = !isOpen;
+        panel.SetActive(isOpen);
+
+        if (isOpen)
         {
+            // Soita open vain kerran per avaus
+            if (!openSfxPlayedThisOpen)
+            {
+                openSfxPlayedThisOpen = true;
+                PlaySfx(openSfx);
+            }
+
             Refresh();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            // Time.timeScale = 0f; // optional
+            // Time.timeScale = 0f; // jos haluat pauselle
         }
         else
         {
+            // kun suljetaan, vapautetaan open-guard seuraavaa avausta varten
+            openSfxPlayedThisOpen = false;
+            PlaySfx(closeSfx);
+
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            // Time.timeScale = 1f; // optional
+            // Time.timeScale = 1f;
         }
     }
 
+    private void PlaySfx(AudioClip clip)
+    {
+        if (audioSource == null || clip == null) return;
+
+        // varmistus: jos jotain on jäänyt soimaan, pysäytä se
+        // (ei pitäisi tapahtua PlayOneShotilla, mutta varmuuden vuoksi)
+        audioSource.Stop();
+        audioSource.loop = false;
+
+        audioSource.PlayOneShot(clip);
+    }
 
     public void Refresh()
     {
         if (listText == null) return;
-        if (inv == null) { listText.text = "InventoryService missing"; return; }
+        if (inv == null)
+        {
+            listText.text = "InventoryService missing";
+            return;
+        }
 
         var sb = new StringBuilder();
         sb.AppendLine("INVENTORY");
@@ -87,7 +134,6 @@ public class InventoryUI : MonoBehaviour
         listText.text = sb.ToString();
     }
 
-    // Call this from pickup scripts if you want feed popups:
     public void ShowPickup(string itemId)
     {
         if (pickupFeed == null || inv == null) return;
