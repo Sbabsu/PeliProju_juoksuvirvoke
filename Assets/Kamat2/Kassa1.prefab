@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4677406416900389936}
   - component: {fileID: 4101876857696699624}
   - component: {fileID: 8964694280656979250}
+  - component: {fileID: 7684520087717099527}
+  - component: {fileID: 1566119505055921821}
   m_Layer: 0
   m_Name: Kassa1
   m_TagString: Untagged
@@ -91,3 +93,45 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7684520087717099527
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199329659865547746}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 104.91238, y: 40.80954, z: 29.308495}
+  m_Center: {x: 0.5438176, y: -6.595215, z: 1.345722}
+--- !u!65 &1566119505055921821
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199329659865547746}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 36.598137, y: 40.808323, z: 33.69359}
+  m_Center: {x: 34.700928, y: -6.5958195, z: -31.153187}
