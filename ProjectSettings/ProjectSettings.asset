@@ -826,7 +826,8 @@ PlayerSettings:
   webGLCloseOnQuit: 0
   webWasm2023: 0
   webEnableSubmoduleStrippingCompatibility: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Standalone: APP_UI_EDITOR_ONLY
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -925,11 +926,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 8dee618f-79e2-4050-a1fc-cb0f8553c7dd
+  cloudProjectId: 32027dbd-9e78-447e-9f37-8de887982c0c
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: PeliProju_juoksukalja
-  organizationId: trevorva
+  projectName: juoksukalja
+  organizationId: johnramstedt2
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
