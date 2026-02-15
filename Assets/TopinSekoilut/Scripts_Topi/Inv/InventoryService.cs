@@ -104,4 +104,14 @@ public class InventoryService : MonoBehaviour
         var def = database.GetById(itemId);
         return def != null ? def.icon : null;
     }
+    public bool IsEmpty()
+    {
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value > 0)
+                return false;
+        }
+        return true;
+    }
+
 }
