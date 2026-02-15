@@ -854,6 +854,7 @@ GameObject:
   - component: {fileID: 3416180142012873208}
   - component: {fileID: 1687214644927188970}
   - component: {fileID: 7583653374388164695}
+  - component: {fileID: -5065321813820933621}
   m_Layer: 0
   m_Name: "T\xE4ytettyJ\xE4\xE4kaappi2"
   m_TagString: Untagged
@@ -992,6 +993,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.3349535, y: 109.27942, z: 30.898909}
   m_Center: {x: 21.1, y: 55.146763, z: -0}
+--- !u!208 &-5065321813820933621
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2280021145110160888}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3170461844565629832
 GameObject:
   m_ObjectHideFlags: 0

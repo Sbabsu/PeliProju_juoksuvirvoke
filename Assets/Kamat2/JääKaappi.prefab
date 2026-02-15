@@ -1180,6 +1180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2787029388613820665}
   - component: {fileID: 3673497247291563060}
+  - component: {fileID: 3054340510422103359}
   m_Layer: 0
   m_Name: "J\xE4\xE4Kaappi"
   m_TagString: Untagged
@@ -1253,6 +1254,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 62.22794, y: 114.66194, z: 30.898909}
   m_Center: {x: -9.768709, y: 57.83805, z: 0.67935216}
+--- !u!208 &3054340510422103359
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3304245005553196799}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3693212693356138243
 GameObject:
   m_ObjectHideFlags: 0

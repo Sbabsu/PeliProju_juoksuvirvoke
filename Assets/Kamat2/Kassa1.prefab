@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8964694280656979250}
   - component: {fileID: 7684520087717099527}
   - component: {fileID: 1566119505055921821}
+  - component: {fileID: 6393837311211498438}
   m_Layer: 0
   m_Name: Kassa1
   m_TagString: Untagged
@@ -135,3 +136,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 36.598137, y: 40.808323, z: 33.69359}
   m_Center: {x: 34.700928, y: -6.5958195, z: -31.153187}
+--- !u!208 &6393837311211498438
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6199329659865547746}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 53.000004, y: 27.000002, z: 32}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: -16}
+  m_TimeToStationary: 0.5
