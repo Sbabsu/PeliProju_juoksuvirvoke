@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a88f5c361355ce7439ea240925491666, type: 3}
-  m_Name: BeerCanSandals
+  m_Name: "BeerCanHein\xE4kenk\xE4"
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
-  id: beer_can_sandals
+  id: "beer_can_hein\xE4kenk\xE4"
   displayName: "\xF6lpp\xF6nen"
   icon: {fileID: 0}
-  worldPrefab: {fileID: 3855804925573244580, guid: 1fdfa040fb1997f40af6ef948cdf6000, type: 3}
+  worldPrefab: {fileID: 5975653955164312741, guid: 998644a6efac2b24f9e1a34e51598bcb, type: 3}

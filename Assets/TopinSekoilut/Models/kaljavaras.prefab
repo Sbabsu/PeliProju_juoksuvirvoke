@@ -279,6 +279,9 @@ PrefabInstance:
       addedObject: {fileID: 274720524265772345}
     - targetCorrespondingSourceObject: {fileID: -1196930438909889544, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 8903376313783077363}
+    - targetCorrespondingSourceObject: {fileID: -1196930438909889544, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 216666401978253841}
     - targetCorrespondingSourceObject: {fileID: -1196930438909889544, guid: 10503c0a3acfb52419be92e8298f56a3, type: 3}
       insertIndex: -1
@@ -1649,6 +1652,7 @@ MonoBehaviour:
   jumpForce: 150
   turnSpeed: 10
   forwardThreshold: 0.1
+  maxVelocityChangePerFixed: 6
   maxStamina: 5
   staminaDrainPerSecond: 1
   staminaRegenPerSecond: 0.8
@@ -1658,6 +1662,26 @@ MonoBehaviour:
   groundMask:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &8903376313783077363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4255996721016645076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fe59a85de2c3024b9b891d73006d358, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryDropper
+  inventory: {fileID: 0}
+  database: {fileID: 0}
+  dropOrigin: {fileID: 0}
+  spawnRadius: 0.35
+  upwardVel: 4
+  outwardVel: 3
+  spinVel: 4
+  maxSpawnPerItemType: 50
 --- !u!136 &216666401978253841
 CapsuleCollider:
   m_ObjectHideFlags: 0

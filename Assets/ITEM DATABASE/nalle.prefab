@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3092409337865689977
+--- !u!1001 &8960792579658462470
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -22,15 +22,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.249
+      value: -7.071
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.134
+      value: -0.48
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.326
+      value: 3.8898215
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalRotation.w
@@ -65,13 +65,17 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7664866796004102716, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7664866796004102716, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7664866796004102716, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: f888b54f6e6d2e0498ab59958ee157ba, type: 2}
+      objectReference: {fileID: 2100000, guid: a3ecd2062096f9c4c95d02f27532fab8, type: 2}
     - target: {fileID: -6811788738319108632, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.24
@@ -90,11 +94,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6811788738319108632, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_Name
-      value: "hein\xE4ken"
+      value: nalle
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       propertyPath: m_Layer
@@ -111,26 +115,42 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3829197027085608933}
+      addedObject: {fileID: 1884481925462895533}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 602917690951279493}
+      addedObject: {fileID: 5033257784098349380}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4499616008202771116}
+      addedObject: {fileID: 3319569700003359777}
   m_SourcePrefab: {fileID: 100100000, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
---- !u!1 &2750318632538531368 stripped
+--- !u!1 &8113877453861193815 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
-  m_PrefabInstance: {fileID: 3092409337865689977}
+  m_PrefabInstance: {fileID: 8960792579658462470}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &3829197027085608933
+--- !u!114 &1884481925462895533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8113877453861193815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c927dc6c7d8194aadad9c471d13798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickUpItem
+  itemId: beer_can
+  amount: 1
+  destroyOnPickup: 1
+  pickedUp: 0
+--- !u!136 &5033257784098349380
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2750318632538531368}
+  m_GameObject: {fileID: 8113877453861193815}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -139,37 +159,21 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1544328
-  m_Height: 0.5527577
+  m_Radius: 0.15443277
+  m_Height: 0.55275774
   m_Direction: 1
-  m_Center: {x: 0, y: 1.437324, z: 0}
---- !u!114 &602917690951279493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2750318632538531368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35c927dc6c7d8194aadad9c471d13798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickUpItem
-  itemId: "beer_can_hein\xE4kenk\xE4"
-  amount: 1
-  destroyOnPickup: 1
-  pickedUp: 0
---- !u!54 &4499616008202771116
+  m_Center: {x: 0.0017855167, y: 1.437324, z: 0}
+--- !u!54 &3319569700003359777
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2750318632538531368}
+  m_GameObject: {fileID: 8113877453861193815}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0

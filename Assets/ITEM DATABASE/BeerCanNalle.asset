@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: BeerCanNalle
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: beer_can_nalle
-  displayName: "\xF6lpp\xF6ne"
+  displayName: "\xF6lpp\xF6nen"
   icon: {fileID: 0}
-  worldPrefab: {fileID: 2514133229599788218, guid: 802fc9446eeceb848939d5e2236f8243, type: 3}
+  worldPrefab: {fileID: 8113877453861193815, guid: 08e79732628685e4ba3831be2969695c, type: 3}
