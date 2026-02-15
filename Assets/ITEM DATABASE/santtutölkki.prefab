@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35c927dc6c7d8194aadad9c471d13798, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUpItem
-  itemId: beer_can
+  itemId: beer_can_sandals
   amount: 1
   destroyOnPickup: 1
   pickedUp: 0
