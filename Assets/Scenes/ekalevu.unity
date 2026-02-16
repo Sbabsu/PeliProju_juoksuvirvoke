@@ -4125,6 +4125,10 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: animRoot
       value: 
       objectReference: {fileID: 1630224155}
@@ -4135,6 +4139,10 @@ PrefabInstance:
     - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: maxStamina
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
+      propertyPath: sprintSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 549336197863136579, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: m_TagString
@@ -13368,7 +13376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 674395239894992369, guid: b1339301b2cc629418bdd65a60f25546, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.1
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 674395239894992369, guid: b1339301b2cc629418bdd65a60f25546, type: 3}
       propertyPath: m_LocalPosition.z

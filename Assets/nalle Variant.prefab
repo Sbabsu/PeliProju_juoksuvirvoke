@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3855804925573244580
+--- !u!1 &3791556161232107557
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3754685063411966896}
-  - component: {fileID: 2958886053197470512}
-  - component: {fileID: 3266775868729979489}
-  - component: {fileID: 1826190735221083661}
+  - component: {fileID: 4599723958489490079}
+  - component: {fileID: 84545780912897769}
+  - component: {fileID: 2281469114418082182}
+  - component: {fileID: 6391131844561705120}
   m_Layer: 9
-  m_Name: "santtut\xF6lkki"
+  m_Name: nalle Variant
   m_TagString: beer_can
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3754685063411966896
+--- !u!4 &4599723958489490079
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3855804925573244580}
+  m_GameObject: {fileID: 3791556161232107557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.923, y: -0.45, z: 4.501}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.43455812, y: 2.54, z: 3.84}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 8869769460713746205}
+  - {fileID: 1812861401700003996}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &2958886053197470512
+--- !u!114 &84545780912897769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3791556161232107557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35c927dc6c7d8194aadad9c471d13798, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PickUpItem
+  itemId: beer_can_nalle
+  amount: 1
+  destroyOnPickup: 1
+  pickedUp: 0
+--- !u!136 &2281469114418082182
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3855804925573244580}
+  m_GameObject: {fileID: 3791556161232107557}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -50,37 +66,21 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.14988017
-  m_Height: 0.547554
+  m_Radius: 32.768776
+  m_Height: 110.804344
   m_Direction: 1
-  m_Center: {x: 0.0085504055, y: 1.426503, z: 0.0014588833}
---- !u!114 &3266775868729979489
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3855804925573244580}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35c927dc6c7d8194aadad9c471d13798, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PickUpItem
-  itemId: beer_can_sandals
-  amount: 1
-  destroyOnPickup: 1
-  pickedUp: 0
---- !u!54 &1826190735221083661
+  m_Center: {x: 0.51965714, y: 49.7061, z: -0.59657097}
+--- !u!54 &6391131844561705120
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3855804925573244580}
+  m_GameObject: {fileID: 3791556161232107557}
   serializedVersion: 5
   m_Mass: 1
   m_LinearDamping: 0
@@ -101,7 +101,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!1 &5943450100239983796
+--- !u!1 &7768710608852458925
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,9 +109,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8869769460713746205}
-  - component: {fileID: 1153594626090305347}
-  - component: {fileID: 808954317954377303}
+  - component: {fileID: 1812861401700003996}
+  - component: {fileID: 451808969133009880}
+  - component: {fileID: 3314602797313222832}
   m_Layer: 0
   m_Name: "Lata de refresco (baja resoluci\xF3n)"
   m_TagString: Untagged
@@ -119,38 +119,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8869769460713746205
+--- !u!4 &1812861401700003996
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5943450100239983796}
+  m_GameObject: {fileID: 7768710608852458925}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00000003774895, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 1.2, z: 0}
-  m_LocalScale: {x: 0.24, y: 0.24, z: 0.24}
-  m_ConstrainProportionsScale: 1
+  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3754685063411966896}
+  m_Father: {fileID: 4599723958489490079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1153594626090305347
+--- !u!33 &451808969133009880
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5943450100239983796}
+  m_GameObject: {fileID: 7768710608852458925}
   m_Mesh: {fileID: 8768010210498916672, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
---- !u!23 &808954317954377303
+--- !u!23 &3314602797313222832
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5943450100239983796}
+  m_GameObject: {fileID: 7768710608852458925}
   m_Enabled: 1
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -168,7 +168,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: -6264108109303627976, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
-  - {fileID: 2100000, guid: cc696cd8ea08403498f512671be0bccb, type: 2}
+  - {fileID: -3846018093981099296, guid: ddb91b37d022b2f42acc28b09c9515e2, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

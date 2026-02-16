@@ -159,7 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GuardSlowPowerUp
   slowMultiplier: 0.5
-  duration: 5
+  duration: 10
 --- !u!114 &7387975290089093601
 MonoBehaviour:
   m_ObjectHideFlags: 0

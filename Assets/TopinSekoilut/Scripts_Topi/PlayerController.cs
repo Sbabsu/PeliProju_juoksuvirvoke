@@ -291,12 +291,12 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpeedRoutine(float multiplier, float duration)
     {
-        float original = _speedMultiplier;
-        _speedMultiplier = original * multiplier;
+        _speedMultiplier = multiplier;
 
         yield return new WaitForSeconds(duration);
 
-        _speedMultiplier = original;
+        _speedMultiplier = 1f;
         _speedRoutine = null;
     }
+
 }

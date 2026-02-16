@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(GuardAI))]
@@ -41,6 +42,10 @@ public class GuardStateMachine : MonoBehaviour
     [SerializeField] private float patrolSpeed = 3.5f;
     [SerializeField] private float chaseSpeed = 5.0f;
     [SerializeField] private float reachedDistance = 0.6f;
+
+    // Powerup multiplier
+    private float _speedMultiplier = 1f;
+    private Coroutine _speedRoutine;
 
     private GuardAI ai;
     private NavMeshAgent agent;
@@ -99,7 +104,7 @@ public class GuardStateMachine : MonoBehaviour
     private void EnterPatrol()
     {
         state = State.Patrol;
-        agent.speed = patrolSpeed;
+        ApplySpeed(patrolSpeed);
 
         SetAnimBools(walking: true, running: false);
 
@@ -156,7 +161,7 @@ public class GuardStateMachine : MonoBehaviour
     private void EnterChase()
     {
         state = State.Chase;
-        agent.speed = chaseSpeed;
+        ApplySpeed(chaseSpeed);
 
         SetAnimBools(walking: false, running: true);
     }
@@ -180,7 +185,7 @@ public class GuardStateMachine : MonoBehaviour
     private void EnterSearch(Vector3 lastPos)
     {
         state = State.Search;
-        agent.speed = patrolSpeed;
+        ApplySpeed(patrolSpeed);
 
         SetAnimBools(walking: true, running: false);
 
@@ -207,6 +212,62 @@ public class GuardStateMachine : MonoBehaviour
             }
         }
     }
+
+    // SPEED POWERUP SUPPORT
+
+    private void ApplySpeed(float baseSpeed)
+    {
+        agent.speed = baseSpeed * _speedMultiplier;
+        if (animator != null)
+        {
+            animator.speed = _speedMultiplier;
+        }
+
+    }
+
+    public void ApplySpeedMultiplier(float multiplier, float duration)
+    {
+        if (_speedRoutine != null)
+            StopCoroutine(_speedRoutine);
+
+        _speedRoutine = StartCoroutine(SpeedRoutine(multiplier, duration));
+    }
+
+    private IEnumerator SpeedRoutine(float multiplier, float duration)
+    {
+        _speedMultiplier = multiplier;
+
+        // Immediately reapply speed for current state
+        switch (state)
+        {
+            case State.Patrol:
+            case State.Search:
+                ApplySpeed(patrolSpeed);
+                break;
+
+            case State.Chase:
+                ApplySpeed(chaseSpeed);
+                break;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        _speedMultiplier = 1f;
+
+        // Restore normal speed
+        switch (state)
+        {
+            case State.Patrol:
+            case State.Search:
+                ApplySpeed(patrolSpeed);
+                break;
+
+            case State.Chase:
+                ApplySpeed(chaseSpeed);
+                break;
+        }
+    }
+    
 
     // Animator helper
     private void SetAnimBools(bool walking, bool running)
