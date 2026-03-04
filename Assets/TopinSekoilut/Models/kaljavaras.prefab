@@ -1646,7 +1646,7 @@ MonoBehaviour:
   isJumping: 0
   isStrafing_Left: 0
   isStrafing_Right: 0
-  speed: 2
+  speed: 2.5
   strafeSpeed: 1.5
   sprintSpeed: 4
   jumpForce: 150
