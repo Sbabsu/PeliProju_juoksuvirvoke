@@ -1,59 +1,61 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    [Header("References")]
-    public Transform character;          // vedä hahmo tähän Inspectorissa
-    public Animator animator;            // vedä hahmon Animator tähän
-    public string walkBoolName = "Walk"; // Animatorin bool-parametri (tee tämä Animatoriin)
-    
-    [Header("Exit walk")]
-    public Transform exitTarget;          // tyhjä GameObject ruudun ulkopuolelle (minne kävellään)
-    public float walkSpeed = 2.0f;
+    [Header("Buttons")]
+    public Button continueButton;
+    public Button settingsButton;
+    public Button quitButton;
 
-    [Header("Scene")]
-    public string sceneToLoad = "GameScene";
+    [Header("Settings Camera")]
+    public SettingsCameraRig settingsRig;   // vedä SettingsCameraRig GO tähän
+    public Button settingsCloseButton;      // asetusten "Takaisin" nappi
 
-    bool started;
-
-    public void PlayGame()
+    void Start()
     {
-        if (started) return;
-        started = true;
-        StartCoroutine(ExitAndLoad());
-    }
-
-    IEnumerator ExitAndLoad()
-    {
-        // kävelyanimaatio päälle
-        if (animator != null)
-            animator.SetBool(walkBoolName, true);
-
-        // kävely kohti kohdetta
-        while (Vector3.Distance(character.position, exitTarget.position) > 0.05f)
+        // Jatka näkyy vasta kun progress sallii
+        if (continueButton != null)
         {
-            character.position = Vector3.MoveTowards(
-                character.position,
-                exitTarget.position,
-                walkSpeed * Time.deltaTime
-            );
-
-            // käännä hahmo kohti suuntaa (valinnainen)
-            Vector3 dir = (exitTarget.position - character.position);
-            dir.y = 0;
-            if (dir.sqrMagnitude > 0.0001f)
-                character.forward = dir.normalized;
-
-            yield return null;
+            continueButton.gameObject.SetActive(GameProgress.IsContinueUnlocked());
+            continueButton.onClick.RemoveAllListeners();
+            continueButton.onClick.AddListener(ContinueGame);
         }
 
-        // animaatio pois (valinnainen)
-        if (animator != null)
-            animator.SetBool(walkBoolName, false);
+        if (settingsButton != null)
+        {
+            settingsButton.onClick.RemoveAllListeners();
+            settingsButton.onClick.AddListener(() =>
+            {
+                if (settingsRig != null) settingsRig.OpenSettings();
+            });
+        }
 
-        // lataa seuraava kartta/scenet
-        SceneManager.LoadScene(sceneToLoad);
+        if (settingsCloseButton != null)
+        {
+            settingsCloseButton.onClick.RemoveAllListeners();
+            settingsCloseButton.onClick.AddListener(() =>
+            {
+                if (settingsRig != null) settingsRig.CloseSettings();
+            });
+        }
+
+        if (quitButton != null)
+        {
+            quitButton.onClick.RemoveAllListeners();
+            quitButton.onClick.AddListener(Application.Quit);
+        }
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 1f;
+    }
+
+    public void ContinueGame()
+    {
+        string scene = GameProgress.GetNextLevelScene();
+        if (!string.IsNullOrEmpty(scene))
+            SceneManager.LoadScene(scene);
     }
 }
