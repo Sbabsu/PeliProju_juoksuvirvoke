@@ -13,8 +13,18 @@ public class ReceiptUI_TMP : MonoBehaviour
     public GameObject overlay;
     public TMP_Text titleTMP;
     public TMP_Text bodyTMP;
+
     public Button retryButton;
     public Button mainMenuButton;
+
+    [Header("Jatka (vain onnistumisessa)")]
+    public Button nextLevelButton;     // liitä inspectorissa
+    private string nextLevelSceneName = "";
+
+    [Header("Caps UI (tippuvat korkit)")]
+    public CapRatingUI capRatingUI;    // liitä CapsRow (jossa CapRatingUI)
+    private int pendingCaps = 0;
+    private bool capsAlreadyTriggered = false;
 
     [Header("Data")]
     public InventoryService inventory;
@@ -29,10 +39,13 @@ public class ReceiptUI_TMP : MonoBehaviour
 
     [Header("Typing Settings")]
     public float typeSpeed = 0.02f;
-    public float jitterAmount = 1.2f;     // kuinka paljon kirjaimet tärisee
-    public float fadeSpeed = 8f;          // kuinka nopeasti alpha fade sisään
+    public float jitterAmount = 1.2f;
+    public float fadeSpeed = 8f;
 
-    Coroutine typingRoutine;
+    private Coroutine typingRoutine;
+
+    // Piilomerkki tekstiin: kun typewriter saavuttaa tämän, trigataan korkkirivi
+    private const string CAPS_MARKER = "<CAPS_ROW>";
 
     void Awake()
     {
@@ -50,20 +63,66 @@ public class ReceiptUI_TMP : MonoBehaviour
             SceneManager.LoadScene(mainMenuSceneName);
         });
 
+        if (nextLevelButton != null)
+        {
+            nextLevelButton.onClick.AddListener(() =>
+            {
+                Time.timeScale = 1f;
+
+                if (!string.IsNullOrEmpty(nextLevelSceneName))
+                    SceneManager.LoadScene(nextLevelSceneName);
+                else
+                    SceneManager.LoadScene(mainMenuSceneName);
+            });
+
+            nextLevelButton.gameObject.SetActive(false);
+        }
+
         if (inventory == null) inventory = InventoryService.Instance;
+
+        if (capRatingUI != null)
+            capRatingUI.HideRow();
     }
 
+    // -------------------------
+    // PUBLIC API
+    // -------------------------
+
+    // Kutsu tätä kun level läpäistään
     public void OpenLevelCompleteReceipt()
     {
+        string current = SceneManager.GetActiveScene().name;
+        nextLevelSceneName = GameProgress.OnLevelCompleted(current);
+
+        if (nextLevelButton != null)
+        {
+            bool hasNext = !string.IsNullOrEmpty(nextLevelSceneName);
+            nextLevelButton.gameObject.SetActive(hasNext);
+            nextLevelButton.interactable = hasNext;
+        }
+
         Open();
-        FillReceipt(true);
+        FillReceipt(success: true);
     }
 
+    // Kutsu tätä kun jää kiinni vartijalle / fail
     public void OpenFailReceipt()
     {
+        nextLevelSceneName = "";
+
+        if (nextLevelButton != null)
+        {
+            nextLevelButton.gameObject.SetActive(false);
+            nextLevelButton.interactable = false;
+        }
+
         Open();
-        FillReceipt(false);
+        FillReceipt(success: false);
     }
+
+    // -------------------------
+    // RECEIPT CONTENT
+    // -------------------------
 
     void FillReceipt(bool success)
     {
@@ -73,24 +132,94 @@ public class ReceiptUI_TMP : MonoBehaviour
 
         string timeStr = FormatTime(seconds);
         int beers = GetTotalDrinksFromInventory();
-        int stars = success ? CalculateStars(seconds, beers) : 0;
-        string starsStr = success
-            ? new string('★', stars) + new string('☆', 5 - stars)
-            : "-----";
+
+        bool caughtByGuard = !success;
+
+        // 0–5 korkkia
+        pendingCaps = CalculateCaps(beers, caughtByGuard);
+        capsAlreadyTriggered = false;
 
         if (titleTMP != null)
             titleTMP.text = success ? "SUORITUS" : "EPÄONNISTUI";
+
+        // Valmistele caps UI (piilossa) – asetetaan tiputettavien määrä valmiiksi
+        if (capRatingUI != null)
+        {
+            capRatingUI.ShowRow();       // voidaan pitää aktiivisena layoutin takia
+            capRatingUI.SetDropCount(0); // piilota kaikki ensin
+            capRatingUI.HideRow();       // mutta koko rivi piiloon kunnes marker saavutetaan
+        }
 
         var sb = new StringBuilder();
         sb.AppendLine(success ? "SUORITUS" : "EPÄONNISTUI");
         sb.AppendLine("----------------");
         sb.AppendLine($"AIKA:   {timeStr}");
         sb.AppendLine($"JUOMAT: {beers}x");
-        sb.AppendLine($"TÄHDET: {starsStr}");
+        sb.AppendLine("KORKIT:");
+        sb.AppendLine(CAPS_MARKER); // <-- triggaa caps-rivin näkyviin + drop
         sb.AppendLine("----------------");
 
         StartTyping(sb.ToString());
     }
+
+    int GetTotalDrinksFromInventory()
+    {
+        if (inventory == null) return 0;
+        var items = inventory.GetReceiptItemsByName();
+        if (items == null) return 0;
+        return items.Sum(k => Mathf.Max(0, k.Value));
+    }
+
+    // -------------------------
+    // GRADING (caps)
+    // -------------------------
+
+    int CalculateCaps(int beers, bool caughtByGuard)
+    {
+        if (caughtByGuard) return 0;
+
+        // 0 = alle 4
+        // 1 = 4+
+        // 2 = 6+
+        // 3 = 8+
+        // 4 = 10
+        // 5 = >10
+        if (beers >= 11) return 5;
+        if (beers >= 10) return 4;
+        if (beers >= 8)  return 3;
+        if (beers >= 6)  return 2;
+        if (beers >= 4)  return 1;
+        return 0;
+    }
+
+    // -------------------------
+    // OPEN / INPUT
+    // -------------------------
+
+    void Open()
+    {
+        if (!overlay) return;
+
+        overlay.SetActive(true);
+        Time.timeScale = 0f;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        EnsureEventSystem();
+    }
+
+    static void EnsureEventSystem()
+    {
+        if (EventSystem.current != null) return;
+        var es = new GameObject("EventSystem");
+        es.AddComponent<EventSystem>();
+        es.AddComponent<StandaloneInputModule>();
+    }
+
+    // -------------------------
+    // TYPEWRITER + CAPS SYNC
+    // -------------------------
 
     void StartTyping(string text)
     {
@@ -102,6 +231,8 @@ public class ReceiptUI_TMP : MonoBehaviour
 
     IEnumerator TypeText(string fullText)
     {
+        if (bodyTMP == null) yield break;
+
         bodyTMP.text = "";
         bodyTMP.ForceMeshUpdate();
 
@@ -112,13 +243,36 @@ public class ReceiptUI_TMP : MonoBehaviour
             audioSource.Play();
         }
 
-        foreach (char c in fullText)
+        for (int i = 0; i < fullText.Length; i++)
         {
+            // Kun marker saavutetaan → näytä caps row + tiputa vain pendingCaps määrä
+            if (!capsAlreadyTriggered && StartsWithAt(fullText, CAPS_MARKER, i))
+            {
+                capsAlreadyTriggered = true;
+
+                if (capRatingUI != null)
+                {
+                    capRatingUI.ShowRow();
+                    capRatingUI.SetDropCount(pendingCaps);
+
+                    if (pendingCaps > 0)
+                        capRatingUI.PlayDrop(pendingCaps);
+                }
+
+                // Ohita marker (ei näy tekstissä)
+                i += CAPS_MARKER.Length - 1;
+
+                // pieni “rivivaihto” fiilis
+                yield return new WaitForSecondsRealtime(typeSpeed);
+                continue;
+            }
+
+            // normaali kirjain printti
+            char c = fullText[i];
             bodyTMP.text += c;
             bodyTMP.ForceMeshUpdate();
 
             StartCoroutine(AnimateLastCharacter());
-
             yield return new WaitForSecondsRealtime(typeSpeed);
         }
 
@@ -129,8 +283,18 @@ public class ReceiptUI_TMP : MonoBehaviour
         }
     }
 
+    static bool StartsWithAt(string s, string needle, int index)
+    {
+        if (index + needle.Length > s.Length) return false;
+        for (int j = 0; j < needle.Length; j++)
+            if (s[index + j] != needle[j]) return false;
+        return true;
+    }
+
     IEnumerator AnimateLastCharacter()
     {
+        if (bodyTMP == null) yield break;
+
         TMP_TextInfo textInfo = bodyTMP.textInfo;
         int charIndex = textInfo.characterCount - 1;
 
@@ -159,55 +323,14 @@ public class ReceiptUI_TMP : MonoBehaviour
             vertices[vertexIndex + 3] += offset;
 
             byte a = (byte)(Mathf.Clamp01(alpha) * 255);
-
             colors[vertexIndex + 0].a = a;
             colors[vertexIndex + 1].a = a;
             colors[vertexIndex + 2].a = a;
             colors[vertexIndex + 3].a = a;
 
             bodyTMP.UpdateVertexData(TMP_VertexDataUpdateFlags.All);
-
             yield return null;
         }
-    }
-
-    int GetTotalDrinksFromInventory()
-    {
-        if (inventory == null) return 0;
-        var items = inventory.GetReceiptItemsByName();
-        if (items == null) return 0;
-        return items.Sum(k => Mathf.Max(0, k.Value));
-    }
-
-    int CalculateStars(float seconds, int beers)
-    {
-        if (beers <= 0) return 1;
-        if (beers >= 5 && seconds <= 20f) return 5;
-        if ((beers >= 4 && seconds <= 20f) || (beers >= 5 && seconds <= 30f)) return 4;
-        if ((beers >= 3 && seconds <= 25f) || (beers >= 4 && seconds <= 30f)) return 3;
-        if ((beers >= 2 && seconds <= 30f) || (beers >= 3 && seconds <= 45f)) return 2;
-        return 1;
-    }
-
-    void Open()
-    {
-        if (!overlay) return;
-
-        overlay.SetActive(true);
-        Time.timeScale = 0f;
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        EnsureEventSystem();
-    }
-
-    static void EnsureEventSystem()
-    {
-        if (EventSystem.current != null) return;
-        var es = new GameObject("EventSystem");
-        es.AddComponent<EventSystem>();
-        es.AddComponent<StandaloneInputModule>();
     }
 
     string FormatTime(float seconds)

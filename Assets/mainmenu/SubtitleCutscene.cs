@@ -5,73 +5,62 @@ using UnityEngine.SceneManagement;
 
 public class SubtitleCutscene : MonoBehaviour
 {
-    [Header("Subtitle")]
+    [Header("UI")]
     [SerializeField] private TMP_Text subtitleText;
 
-    [Header("Skip UI (optional)")]
-    [SerializeField] private TMP_Text skipText; // voit jättää null jos et käytä
+    // (Valinnainen) näytetään "Pidä SPACE 2s skippaa" tms.
+    [SerializeField] private TMP_Text skipHintText;
 
     [Header("Next scene")]
-    public string nextSceneName = "ekalevu";
+    [SerializeField] private string nextSceneName = "ekalevu";
 
     [Header("Skip settings")]
-    public KeyCode skipKey = KeyCode.Escape;
-    public float holdToSkipTime = 2f;
+    [SerializeField] private KeyCode skipKey = KeyCode.Space;
+    [SerializeField] private float holdToSkipTime = 2f;
 
-    [Header("Intro progress")]
-    public string introSeenKey = "INTRO_SEEN";
+    [Header("Intro progress (optional)")]
+    [SerializeField] private bool markIntroSeen = true;
+    [SerializeField] private string introSeenKey = "INTRO_SEEN";
 
-    float skipTimer;
-    bool ending;
-    Coroutine subtitlesRoutine;
+    private Coroutine subtitlesRoutine;
+    private bool ending;
+    private float holdTimer;
 
     void Start()
     {
-        PlayerPrefs.SetInt(introSeenKey, 1);
-        PlayerPrefs.Save();
-
-        UpdateSkipText(0f);
-
         subtitlesRoutine = StartCoroutine(PlaySubtitles());
+        UpdateSkipHint(0f);
     }
 
     void Update()
     {
         if (ending) return;
 
+        // Jos Game view ei ole fokuksessa, input ei tule -> muista klikata Game-ikkunaa.
         if (Input.GetKey(skipKey))
         {
-            skipTimer += Time.deltaTime;
-            float t = Mathf.Clamp01(skipTimer / holdToSkipTime);
-            UpdateSkipText(t);
+            holdTimer += Time.unscaledDeltaTime; // toimii vaikka Time.timeScale = 0
+            UpdateSkipHint(holdTimer / holdToSkipTime);
 
-            if (skipTimer >= holdToSkipTime)
+            if (holdTimer >= holdToSkipTime)
+            {
                 StartCoroutine(EndNow());
+            }
         }
         else
         {
-            if (skipTimer > 0f)
+            if (holdTimer > 0f)
             {
-                skipTimer = 0f;
-                UpdateSkipText(0f);
+                holdTimer = 0f;
+                UpdateSkipHint(0f);
             }
         }
     }
 
-    void UpdateSkipText(float normalized)
-    {
-        if (skipText == null) return;
-
-        int bars = 10;
-        int filled = Mathf.RoundToInt(normalized * bars);
-        string bar = "[" + new string('■', filled) + new string('□', bars - filled) + "]";
-
-        skipText.text = $"Pidä {skipKey} {holdToSkipTime:0.#}s ohittaaksesi\n{bar}";
-    }
-
     IEnumerator PlaySubtitles()
     {
-        yield return new WaitForSeconds(5f);
+        // Alkuviive
+        yield return new WaitForSecondsRealtime(5f);
 
         yield return ShowLine("morjesta", 1f);
         yield return ShowLine("Noo moro... missä äijä kyntää?", 4f);
@@ -84,9 +73,17 @@ public class SubtitleCutscene : MonoBehaviour
         yield return ShowLine("Ei hätää bro, mä hoidan tän", 3f);
 
         if (subtitleText != null) subtitleText.text = "";
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSecondsRealtime(4f);
 
         yield return EndNow();
+    }
+
+    IEnumerator ShowLine(string line, float duration)
+    {
+        if (ending) yield break;
+
+        if (subtitleText != null) subtitleText.text = line;
+        yield return new WaitForSecondsRealtime(duration);
     }
 
     IEnumerator EndNow()
@@ -94,23 +91,36 @@ public class SubtitleCutscene : MonoBehaviour
         if (ending) yield break;
         ending = true;
 
+        // pysäytä subtitle-coroutine
         if (subtitlesRoutine != null)
             StopCoroutine(subtitlesRoutine);
 
+        // tyhjennä tekstit
         if (subtitleText != null) subtitleText.text = "";
-        if (skipText != null) skipText.text = "";
+        if (skipHintText != null) skipHintText.text = "";
 
+        // Merkitse intro nähdyksi (jos haluat)
+        if (markIntroSeen)
+        {
+            PlayerPrefs.SetInt(introSeenKey, 1);
+            PlayerPrefs.Save();
+        }
+
+        // Fade OUT ennen scenen vaihtoa
         if (FadeController.Instance != null)
             yield return FadeController.Instance.FadeOut(0.8f);
 
-        GameProgress.SaveLastScene(nextSceneName);
         SceneManager.LoadScene(nextSceneName);
     }
 
-    IEnumerator ShowLine(string line, float duration)
+    private void UpdateSkipHint(float t01)
     {
-        if (ending) yield break;
-        if (subtitleText != null) subtitleText.text = line;
-        yield return new WaitForSeconds(duration);
+        if (skipHintText == null) return;
+
+        t01 = Mathf.Clamp01(t01);
+        if (t01 <= 0f)
+            skipHintText.text = $"Pidä {skipKey} {holdToSkipTime:0.#}s skippaa";
+        else
+            skipHintText.text = $"Skippaa... {(t01 * 100f):0}%";
     }
 }

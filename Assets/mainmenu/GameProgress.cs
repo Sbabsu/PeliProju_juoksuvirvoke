@@ -2,70 +2,123 @@ using UnityEngine;
 
 public static class GameProgress
 {
-    // Kirjoita 6 kenttää järjestyksessä
-    public static readonly string[] Levels =
+    // --- PlayerPrefs keys ---
+    public const string KEY_LAST_SCENE = "LAST_SCENE";
+    public const string KEY_FIRST_LEVEL_DONE = "FIRST_LEVEL_DONE";
+    public const string KEY_INTRO_SEEN = "INTRO_SEEN";
+
+    // ⚠️ MUOKKAA NÄMÄ VASTAAMAAN TEIDÄN SCENE-NIMIÄ (Build Settingsissä!)
+    // 6 karttaa järjestyksessä:
+    public static readonly string[] LevelOrder =
     {
         "ekalevu",
         "Tokalevu",
         "kartta3",
         "kartta4",
         "kartta5",
-        "kartta6",
+        "kartta6"
     };
 
-    private const string KEY_HAS_SAVE = "HAS_SAVE";
-    private const string KEY_NEXT_INDEX = "NEXT_LEVEL_INDEX";
-    private const string KEY_LAST_SCENE = "LAST_SCENE";
-
-    public static bool HasSave() => PlayerPrefs.GetInt(KEY_HAS_SAVE, 0) == 1;
-
-    public static int GetNextLevelIndex()
+    // Missä mainmenu/cutscene ovat (ei tallenneta jatkopaikaksi)
+    public static readonly string[] NonGameplayScenes =
     {
-        if (Levels == null || Levels.Length == 0) return 0;
-        return Mathf.Clamp(PlayerPrefs.GetInt(KEY_NEXT_INDEX, 0), 0, Levels.Length - 1);
-    }
+        "MainMenu",
+        "MainMenu_CutScene",
+        "Cutscene"
+    };
 
-    public static string GetNextLevelScene()
+    // --- Save / load last scene ---
+    public static void SaveCurrentScene(string sceneName)
     {
-        if (Levels == null || Levels.Length == 0) return "";
-        return Levels[GetNextLevelIndex()];
-    }
+        if (string.IsNullOrEmpty(sceneName)) return;
+        if (IsNonGameplay(sceneName)) return;
 
-    // ✅ “Jatka” tulee näkyviin vasta kun eka kenttä on läpäisty
-    public static bool IsContinueUnlocked()
-    {
-        return HasSave() && GetNextLevelIndex() >= 1;
-    }
-
-    public static void SaveLastScene(string sceneName)
-    {
-        PlayerPrefs.SetInt(KEY_HAS_SAVE, 1);
         PlayerPrefs.SetString(KEY_LAST_SCENE, sceneName);
         PlayerPrefs.Save();
     }
 
-    public static void MarkLevelCompleted(string completedScene)
+    // Vanhoja nimiä varten (ettei tule CS0117 jos joku kutsuu näitä)
+    public static void SaveLastScene(string sceneName) => SaveCurrentScene(sceneName);
+    public static void SaveCurrentSceneName(string sceneName) => SaveCurrentScene(sceneName);
+
+    public static string GetLastScene()
     {
-        if (Levels == null || Levels.Length == 0) return;
+        return PlayerPrefs.GetString(KEY_LAST_SCENE, "");
+    }
 
-        int idx = System.Array.IndexOf(Levels, completedScene);
-        if (idx < 0) return;
+    public static bool HasLastScene()
+    {
+        var s = GetLastScene();
+        return !string.IsNullOrEmpty(s) && !IsNonGameplay(s);
+    }
 
-        int next = Mathf.Clamp(idx + 1, 0, Levels.Length - 1);
-
-        int currentSaved = PlayerPrefs.GetInt(KEY_NEXT_INDEX, 0);
-        if (next > currentSaved)
-            PlayerPrefs.SetInt(KEY_NEXT_INDEX, next);
-
-        PlayerPrefs.SetInt(KEY_HAS_SAVE, 1);
+    // --- Continue unlock logic ---
+    // “Jatka” näkyy vasta kun 1. kartta on pelattu / läpäisty
+    public static void MarkFirstLevelDone()
+    {
+        PlayerPrefs.SetInt(KEY_FIRST_LEVEL_DONE, 1);
         PlayerPrefs.Save();
+    }
+
+    public static bool IsContinueUnlocked()
+    {
+        return PlayerPrefs.GetInt(KEY_FIRST_LEVEL_DONE, 0) == 1 && HasLastScene();
+    }
+
+    // --- Intro seen ---
+    public static bool IsIntroSeen() => PlayerPrefs.GetInt(KEY_INTRO_SEEN, 0) == 1;
+    public static void MarkIntroSeen()
+    {
+        PlayerPrefs.SetInt(KEY_INTRO_SEEN, 1);
+        PlayerPrefs.Save();
+    }
+
+    // --- Level progression ---
+    public static string GetNextLevelScene(string currentScene)
+    {
+        int idx = IndexOf(LevelOrder, currentScene);
+        if (idx < 0) return LevelOrder.Length > 0 ? LevelOrder[0] : "";
+        int next = idx + 1;
+        if (next >= LevelOrder.Length) return ""; // ei enää seuraavaa
+        return LevelOrder[next];
+    }
+
+    // Kutsu tätä kun level läpäistään:
+    // - merkitsee ekan kartan suoritetuksi jos se oli ekalevu
+    // - tallentaa seuraavan jatkopaikaksi
+    public static string OnLevelCompleted(string currentScene)
+    {
+        if (LevelOrder.Length > 0 && currentScene == LevelOrder[0])
+            MarkFirstLevelDone();
+
+        string next = GetNextLevelScene(currentScene);
+        if (!string.IsNullOrEmpty(next))
+            SaveCurrentScene(next);
+
+        return next;
     }
 
     public static void ResetProgress()
     {
-        PlayerPrefs.DeleteKey(KEY_HAS_SAVE);
-        PlayerPrefs.DeleteKey(KEY_NEXT_INDEX);
         PlayerPrefs.DeleteKey(KEY_LAST_SCENE);
+        PlayerPrefs.DeleteKey(KEY_FIRST_LEVEL_DONE);
+        PlayerPrefs.DeleteKey(KEY_INTRO_SEEN);
         PlayerPrefs.Save();
+    }
+
+    public static void ClearSave() => ResetProgress(); // alias
+
+    static bool IsNonGameplay(string sceneName)
+    {
+        foreach (var s in NonGameplayScenes)
+            if (s == sceneName) return true;
+        return false;
+    }
+
+    static int IndexOf(string[] arr, string value)
+    {
+        for (int i = 0; i < arr.Length; i++)
+            if (arr[i] == value) return i;
+        return -1;
     }
 }

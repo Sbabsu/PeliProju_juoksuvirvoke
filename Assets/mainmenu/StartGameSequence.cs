@@ -26,12 +26,12 @@ public class StartGameSequence : MonoBehaviour
     public string walkStateName = "walking";
     public string walkBoolName = "Walk";
 
-    [Header("Intro settings")]
-    public bool playIntroCutsceneOnlyOnce = true;
-    public string introSeenKey = "INTRO_SEEN";
-
     [Header("Play behaviour")]
+    [Tooltip("Jos päällä, Pelaa aloittaa uuden runin (poistaa jatkon).")]
     public bool resetProgressOnPlay = true;
+
+    [Tooltip("Näytä intro-cutscene vain kerran.")]
+    public bool playIntroOnlyOnce = true;
 
     bool started;
 
@@ -60,26 +60,27 @@ public class StartGameSequence : MonoBehaviour
 
         float groundY = player.position.y;
 
-        // 1) Get up
-        playerAnimator.CrossFadeInFixedTime(getUpStateName, 0.05f);
-        yield return null;
-
-        yield return WaitUntilInState(getUpStateName);
-
-        while (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(getUpStateName) &&
-               playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        // 1) Nouse ylös
+        if (playerAnimator != null)
         {
+            playerAnimator.CrossFadeInFixedTime(getUpStateName, 0.05f);
+            yield return null;
+            yield return WaitUntilInState(getUpStateName);
+
+            while (playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(getUpStateName) &&
+                   playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+            {
+                yield return null;
+            }
+
+            // 2) Kävely päälle
+            playerAnimator.SetBool(walkBoolName, true);
+            playerAnimator.CrossFadeInFixedTime(walkStateName, 0.08f);
+            yield return WaitUntilInState(walkStateName);
             yield return null;
         }
 
-        // 2) Walk start
-        playerAnimator.SetBool(walkBoolName, true);
-        playerAnimator.CrossFadeInFixedTime(walkStateName, 0.08f);
-
-        yield return WaitUntilInState(walkStateName);
-        yield return null;
-
-        // 3) Move to target
+        // 3) Liiku targettiin
         Vector3 targetPos = new Vector3(target.position.x, groundY, target.position.z);
 
         while (Vector3.Distance(new Vector3(player.position.x, groundY, player.position.z), targetPos) > stopDistance)
@@ -89,32 +90,36 @@ public class StartGameSequence : MonoBehaviour
             yield return null;
         }
 
-        playerAnimator.SetBool(walkBoolName, false);
+        if (playerAnimator != null)
+            playerAnimator.SetBool(walkBoolName, false);
 
-        // 4) Tutorial
+        // 4) Tutorial: suoraan tutorial-sceneen
         if (goToTutorial)
         {
             SceneManager.LoadScene(tutorialSceneName);
             yield break;
         }
 
-        // 5) Play -> cutscene only once
-        bool introSeen = PlayerPrefs.GetInt(introSeenKey, 0) == 1;
-        bool shouldPlayIntro = playIntroCutsceneOnlyOnce && !introSeen;
+        // 5) Pelaa: intro-cutscene vain ekalla kerralla
+        bool introSeen = GameProgress.IsIntroSeen();
+        bool shouldPlayIntro = !playIntroOnlyOnce || !introSeen;
 
         if (shouldPlayIntro)
         {
+            // Cutscene-scene hoitaa itse siirtymisen firstLevelSceneen
             SceneManager.LoadScene(cutsceneSceneName);
             yield break;
         }
 
-        // Intro already seen -> straight to first level
-        GameProgress.SaveLastScene(firstLevelScene);
+        // Jos intro jo nähty, aloita suoraan 1. levelistä
+        GameProgress.SaveCurrentScene(firstLevelScene);
         SceneManager.LoadScene(firstLevelScene);
     }
 
     IEnumerator WaitUntilInState(string stateName)
     {
+        if (playerAnimator == null) yield break;
+
         float t = 0f;
         while (!playerAnimator.GetCurrentAnimatorStateInfo(0).IsName(stateName))
         {

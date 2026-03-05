@@ -517,10 +517,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SubtitleCutscene
   subtitleText: {fileID: 413388843}
-  skipText: {fileID: 1827955469}
+  skipHintText: {fileID: 1827955469}
   nextSceneName: ekalevu
   skipKey: 32
   holdToSkipTime: 2
+  markIntroSeen: 1
   introSeenKey: INTRO_SEEN
 --- !u!114 &413388843
 MonoBehaviour:
