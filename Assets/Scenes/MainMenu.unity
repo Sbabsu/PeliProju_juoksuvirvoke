@@ -2696,7 +2696,7 @@ CanvasGroup:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 830626300}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
@@ -6070,6 +6070,7 @@ SceneRoots:
   - {fileID: 2034837183}
   - {fileID: 1981228744}
   - {fileID: 661585835}
+  - {fileID: 1365502565}
   - {fileID: 2005487805}
   - {fileID: 1448435362}
   - {fileID: 1612774002}
@@ -6078,5 +6079,4 @@ SceneRoots:
   - {fileID: 1127804323}
   - {fileID: 1299191806}
   - {fileID: 578954246}
-  - {fileID: 1365502565}
   - {fileID: 1109341894}
