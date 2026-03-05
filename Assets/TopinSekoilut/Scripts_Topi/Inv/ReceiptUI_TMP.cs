@@ -91,6 +91,8 @@ public class ReceiptUI_TMP : MonoBehaviour
     // Kutsu tätä kun level läpäistään
     public void OpenLevelCompleteReceipt()
     {
+        RunResult.CaptureFromGameManager(); // <-- capture time first
+
         string current = SceneManager.GetActiveScene().name;
         nextLevelSceneName = GameProgress.OnLevelCompleted(current);
 
@@ -108,6 +110,8 @@ public class ReceiptUI_TMP : MonoBehaviour
     // Kutsu tätä kun jää kiinni vartijalle / fail
     public void OpenFailReceipt()
     {
+        RunResult.CaptureFromGameManager(); // <-- capture time first
+
         nextLevelSceneName = "";
 
         if (nextLevelButton != null)
@@ -126,9 +130,7 @@ public class ReceiptUI_TMP : MonoBehaviour
 
     void FillReceipt(bool success)
     {
-        float seconds = (RunTimer.Instance != null)
-            ? RunTimer.Instance.GetElapsedSeconds()
-            : 0f;
+        float seconds = RunResult.lastRunSeconds; // STORED VALUE
 
         string timeStr = FormatTime(seconds);
         int beers = GetTotalDrinksFromInventory();
@@ -339,5 +341,12 @@ public class ReceiptUI_TMP : MonoBehaviour
         int min = Mathf.FloorToInt(seconds / 60f);
         int sec = Mathf.FloorToInt(seconds % 60f);
         return $"{min:00}:{sec:00}";
+    }
+
+    private void CaptureFinalTime()
+    {
+        RunResult.lastRunSeconds = (RunTimer.Instance != null)
+            ? RunTimer.Instance.GetElapsedSeconds()
+            : 0f;
     }
 }

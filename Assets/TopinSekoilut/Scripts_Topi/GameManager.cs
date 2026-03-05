@@ -4,7 +4,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
-    // ✅ tämä toimii aina, vaikka UI olisi disabloitu
     public float RunStartRealtime { get; private set; }
 
     void Awake()
@@ -19,11 +18,16 @@ public class GameManager : MonoBehaviour
         RunStartRealtime = Time.realtimeSinceStartup;
     }
 
+    void OnEnable()
+    {
+        // Ensures start time is correct if object is re-enabled
+        RunStartRealtime = Time.realtimeSinceStartup;
+    }
+
     private void Start()
     {
         Application.targetFrameRate = 144;
     }
 
-    // Exitille pääsee aina
     public bool IsExitEnabled() => true;
 }
