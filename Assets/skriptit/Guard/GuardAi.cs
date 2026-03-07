@@ -63,6 +63,10 @@ public class GuardAI : MonoBehaviour
 
         return player != null ? player.position : Vector3.zero;
     }
+    public void SetPlayerTarget(Transform newPlayer)
+    {
+        player = newPlayer;
+    }
 
     public bool CanSeeRagdollPlayer(Vector3 playerCenter)
     {

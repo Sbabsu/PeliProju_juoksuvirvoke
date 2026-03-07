@@ -280,4 +280,9 @@ public class GuardStateMachine : MonoBehaviour
         // If you use isIdle in transitions, keep it consistent:
         animator.SetBool("isIdle", !walking && !running);
     }
+    public void ForceChase()
+    {
+        EnterChase();
+        loseSightTimer = loseSightTime;
+    }
 }
