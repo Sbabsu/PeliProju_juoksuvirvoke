@@ -518,6 +518,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SubtitleCutscene
   subtitleText: {fileID: 413388843}
   skipHintText: {fileID: 1827955469}
+  audioSource: {fileID: 1362603150}
+  lines:
+  - speaker: 
+    text: haalo
+    duration: 1
+    voiceClip: {fileID: 8300000, guid: 960de512ffbe41a4b83971a6a394f3ed, type: 3}
+  - speaker: 
+    text: "Noo moro... miss\xE4s \xE4ij\xE4 viilett\xE4\xE4?"
+    duration: 2.5
+    voiceClip: {fileID: 8300000, guid: 9f54525dfdab3d54ebfaaa3a3137fc89, type: 3}
+  - speaker: 
+    text: "\xE4\xE4hh... P\xE4ikkareilla olin.."
+    duration: 2.5
+    voiceClip: {fileID: 8300000, guid: a8ada6568f0162742b20320914784d33, type: 3}
+  - speaker: 
+    text: aaha,no haluukkos unikeko tulla virvoikkeelle?
+    duration: 2
+    voiceClip: {fileID: 8300000, guid: e1e290a74937cc046b65484e7fa5ebc5, type: 3}
+  - speaker: 
+    text: mhmh, joo, mut ei oo rahaa eik kaljaa
+    duration: 3
+    voiceClip: {fileID: 8300000, guid: 639b8ab03a9ef604d9f7f1b96023e428, type: 3}
+  - speaker: 
+    text: voi vitun vitun vittu...khyl se kuitenki janottais?
+    duration: 4
+    voiceClip: {fileID: 8300000, guid: a1363c60b603ec4458d1a79b17ab6016, type: 3}
+  - speaker: 
+    text: "no enk\xF6h\xE4 m\xE4 jotai kehit\xE4.. n\xE4h\xE4\xE4.."
+    duration: 3
+    voiceClip: {fileID: 8300000, guid: 37c3c51c85f4a6b40a3be1425968d681, type: 3}
+  startDelay: 5
+  endDelay: 4
   nextSceneName: ekalevu
   skipKey: 32
   holdToSkipTime: 2
@@ -1330,6 +1362,135 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 6.829, z: 0}
+--- !u!1 &1362603149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1362603151}
+  - component: {fileID: 1362603150}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &1362603150
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362603149}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.368
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!4 &1362603151
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1362603149}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1448435358
 GameObject:
   m_ObjectHideFlags: 0
@@ -2063,4 +2224,5 @@ SceneRoots:
   - {fileID: 1299191806}
   - {fileID: 1455358064}
   - {fileID: 1137540349}
+  - {fileID: 1362603151}
   - {fileID: 1163472664}

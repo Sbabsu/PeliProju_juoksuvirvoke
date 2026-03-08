@@ -5,11 +5,26 @@ using UnityEngine.SceneManagement;
 
 public class SubtitleCutscene : MonoBehaviour
 {
+    [System.Serializable]
+    public class SubtitleLine
+    {
+        public string speaker;
+        [TextArea(2, 4)] public string text;
+        public float duration = 3f;
+        public AudioClip voiceClip;
+    }
+
     [Header("UI")]
     [SerializeField] private TMP_Text subtitleText;
-
-    // (Valinnainen) näytetään "Pidä SPACE 2s skippaa" tms.
     [SerializeField] private TMP_Text skipHintText;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+
+    [Header("Dialogue")]
+    [SerializeField] private SubtitleLine[] lines;
+    [SerializeField] private float startDelay = 2f;
+    [SerializeField] private float endDelay = 2f;
 
     [Header("Next scene")]
     [SerializeField] private string nextSceneName = "ekalevu";
@@ -18,7 +33,7 @@ public class SubtitleCutscene : MonoBehaviour
     [SerializeField] private KeyCode skipKey = KeyCode.Space;
     [SerializeField] private float holdToSkipTime = 2f;
 
-    [Header("Intro progress (optional)")]
+    [Header("Intro progress")]
     [SerializeField] private bool markIntroSeen = true;
     [SerializeField] private string introSeenKey = "INTRO_SEEN";
 
@@ -26,20 +41,19 @@ public class SubtitleCutscene : MonoBehaviour
     private bool ending;
     private float holdTimer;
 
-    void Start()
+    private void Start()
     {
         subtitlesRoutine = StartCoroutine(PlaySubtitles());
         UpdateSkipHint(0f);
     }
 
-    void Update()
+    private void Update()
     {
         if (ending) return;
 
-        // Jos Game view ei ole fokuksessa, input ei tule -> muista klikata Game-ikkunaa.
         if (Input.GetKey(skipKey))
         {
-            holdTimer += Time.unscaledDeltaTime; // toimii vaikka Time.timeScale = 0
+            holdTimer += Time.unscaledDeltaTime;
             UpdateSkipHint(holdTimer / holdToSkipTime);
 
             if (holdTimer >= holdToSkipTime)
@@ -57,56 +71,70 @@ public class SubtitleCutscene : MonoBehaviour
         }
     }
 
-    IEnumerator PlaySubtitles()
+    private IEnumerator PlaySubtitles()
     {
-        // Alkuviive
-        yield return new WaitForSecondsRealtime(5f);
+        yield return new WaitForSecondsRealtime(startDelay);
 
-        yield return ShowLine("morjesta", 1f);
-        yield return ShowLine("Noo moro... missä äijä kyntää?", 4f);
-        yield return ShowLine("äähh... Päikkareilla olin..", 3f);
-        yield return ShowLine("aaha,no haluukos unikeko tulla virvoikkeelle?", 4f);
-        yield return ShowLine("ööhh.. Joo, mutta mulla ei oo kaljaa eikä rahaa.", 4f);
-        yield return ShowLine("No voi svidy.. kai sä ymmärrät et tää on hätätila?", 4f);
-        yield return ShowLine("Tää alkaa joo oleen aika akuutti...", 4f);
-        yield return ShowLine("Kaikki olin tähän jo suunnítellu ja tää pilaa kaiken", 4.5f);
-        yield return ShowLine("Ei hätää bro, mä hoidan tän", 3f);
+        foreach (SubtitleLine line in lines)
+        {
+            yield return ShowLine(line);
+        }
 
-        if (subtitleText != null) subtitleText.text = "";
-        yield return new WaitForSecondsRealtime(4f);
+        if (subtitleText != null)
+            subtitleText.text = "";
+
+        yield return new WaitForSecondsRealtime(endDelay);
 
         yield return EndNow();
     }
 
-    IEnumerator ShowLine(string line, float duration)
+    private IEnumerator ShowLine(SubtitleLine line)
     {
         if (ending) yield break;
 
-        if (subtitleText != null) subtitleText.text = line;
-        yield return new WaitForSecondsRealtime(duration);
+        if (subtitleText != null)
+        {
+            if (!string.IsNullOrWhiteSpace(line.speaker))
+                subtitleText.text = $"{line.speaker}: {line.text}";
+            else
+                subtitleText.text = line.text;
+        }
+
+        if (audioSource != null && line.voiceClip != null)
+        {
+            audioSource.clip = line.voiceClip;
+            audioSource.Play();
+
+            // Jos haluat että kesto tulee automaattisesti audion mukaan:
+            float waitTime = line.voiceClip.length > 0f ? line.voiceClip.length : line.duration;
+            yield return new WaitForSecondsRealtime(waitTime);
+        }
+        else
+        {
+            yield return new WaitForSecondsRealtime(line.duration);
+        }
     }
 
-    IEnumerator EndNow()
+    private IEnumerator EndNow()
     {
         if (ending) yield break;
         ending = true;
 
-        // pysäytä subtitle-coroutine
         if (subtitlesRoutine != null)
             StopCoroutine(subtitlesRoutine);
 
-        // tyhjennä tekstit
+        if (audioSource != null && audioSource.isPlaying)
+            audioSource.Stop();
+
         if (subtitleText != null) subtitleText.text = "";
         if (skipHintText != null) skipHintText.text = "";
 
-        // Merkitse intro nähdyksi (jos haluat)
         if (markIntroSeen)
         {
             PlayerPrefs.SetInt(introSeenKey, 1);
             PlayerPrefs.Save();
         }
 
-        // Fade OUT ennen scenen vaihtoa
         if (FadeController.Instance != null)
             yield return FadeController.Instance.FadeOut(0.8f);
 
@@ -118,6 +146,7 @@ public class SubtitleCutscene : MonoBehaviour
         if (skipHintText == null) return;
 
         t01 = Mathf.Clamp01(t01);
+
         if (t01 <= 0f)
             skipHintText.text = $"Pidä {skipKey} {holdToSkipTime:0.#}s skippaa";
         else
