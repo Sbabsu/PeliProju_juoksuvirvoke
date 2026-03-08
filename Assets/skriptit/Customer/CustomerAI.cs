@@ -1,127 +1,133 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class CustomerAI : MonoBehaviour
+[RequireComponent(typeof(NavMeshAgent))]
+public class ShopPatrolNPC : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Animator animator;
-    [SerializeField] private Transform[] points;
+
+    [Header("Patrol Points")]
+    [SerializeField] private Transform[] patrolPoints;
 
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 2f;
-    [SerializeField] private float stopDistance = 0.8f;
-
-    [Header("Waiting")]
-    [SerializeField] private float waitTimeAtPoint = 5f;
-
-    [Header("Shelf Look")]
-    [SerializeField] private Transform[] lookTargets;
-    [SerializeField] private float lookRotateSpeed = 5f;
-
-    [Header("Animation")]
-    [SerializeField] private string movingBoolParameter = "isMoving";
-    [SerializeField] private string speedFloatParameter = "Speed";
-    [SerializeField] private float animLerpSpeed = 8f;
+    [SerializeField] private float moveSpeed = 2.0f;
+    [SerializeField] private float stopDistance = 0.5f;
+    [SerializeField] private float waitTimeAtPoint = 4f;
 
     private int currentPointIndex = 0;
+    private float waitTimer = 0f;
     private bool isWaiting = false;
-    private float currentAnimSpeed = 0f;
 
-    private void Start()
+    private void Awake()
     {
         if (agent == null)
             agent = GetComponent<NavMeshAgent>();
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
+    }
+
+    private void Start()
+    {
+        if (agent == null)
+        {
+            Debug.LogError("NavMeshAgent puuttuu objektista: " + gameObject.name, this);
+            enabled = false;
+            return;
+        }
+
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogError(gameObject.name + " ei ole NavMeshin päällä!", this);
+            enabled = false;
+            return;
+        }
+
+        if (patrolPoints == null || patrolPoints.Length == 0)
+        {
+            Debug.LogWarning("Patrol pointit puuttuvat objektista: " + gameObject.name, this);
+            SetWalking(false);
+            enabled = false;
+            return;
+        }
 
         agent.speed = moveSpeed;
-        agent.stoppingDistance = stopDistance;
-        agent.autoBraking = true;
-
-        if (points != null && points.Length > 0)
-        {
-            agent.SetDestination(points[currentPointIndex].position);
-        }
+        MoveToCurrentPoint();
     }
 
     private void Update()
     {
-        if (agent == null || animator == null || points == null || points.Length == 0)
-            return;
+        if (patrolPoints == null || patrolPoints.Length == 0) return;
+        if (agent == null || !agent.isOnNavMesh) return;
 
-        agent.speed = moveSpeed;
-        agent.stoppingDistance = stopDistance;
-
-        if (!isWaiting)
+        if (isWaiting)
         {
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance + 0.05f)
+            waitTimer -= Time.deltaTime;
+
+            if (waitTimer <= 0f)
             {
-                StartCoroutine(WaitAtPoint());
+                isWaiting = false;
+                currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
+                MoveToCurrentPoint();
             }
-        }
-        else
-        {
-            RotateTowardsLookTarget();
+
+            return;
         }
 
-        UpdateAnimation();
+        if (!agent.pathPending && agent.remainingDistance <= stopDistance)
+        {
+            StartWaiting();
+        }
+
+        bool isMoving = agent.velocity.sqrMagnitude > 0.01f && !isWaiting;
+        SetWalking(isMoving);
     }
 
-    private IEnumerator WaitAtPoint()
+    private void MoveToCurrentPoint()
+    {
+        if (patrolPoints[currentPointIndex] == null) return;
+
+        agent.isStopped = false;
+        agent.SetDestination(patrolPoints[currentPointIndex].position);
+        SetWalking(true);
+    }
+
+    private void StartWaiting()
     {
         isWaiting = true;
+        waitTimer = waitTimeAtPoint;
 
         agent.isStopped = true;
         agent.ResetPath();
 
-        UpdateAnimation();
-
-        yield return new WaitForSeconds(waitTimeAtPoint);
-
-        currentPointIndex++;
-        if (currentPointIndex >= points.Length)
-            currentPointIndex = 0;
-
-        agent.isStopped = false;
-        agent.SetDestination(points[currentPointIndex].position);
-
-        isWaiting = false;
+        SetWalking(false);
     }
 
-    private void RotateTowardsLookTarget()
+    private void SetWalking(bool walking)
     {
-        if (lookTargets == null || lookTargets.Length == 0)
-            return;
+        if (animator == null) return;
 
-        if (currentPointIndex < 0 || currentPointIndex >= lookTargets.Length)
-            return;
-
-        Transform target = lookTargets[currentPointIndex];
-        if (target == null)
-            return;
-
-        Vector3 dir = target.position - transform.position;
-        dir.y = 0f;
-
-        if (dir.sqrMagnitude < 0.001f)
-            return;
-
-        Quaternion targetRot = Quaternion.LookRotation(dir.normalized, Vector3.up);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, lookRotateSpeed * Time.deltaTime);
+        animator.SetBool("isWalking", walking);
+        animator.SetBool("isIdle", !walking);
     }
 
-    private void UpdateAnimation()
+    private void OnDrawGizmosSelected()
     {
-        if (animator == null || agent == null)
-            return;
+        if (patrolPoints == null || patrolPoints.Length == 0) return;
 
-        float realSpeed = agent.velocity.magnitude;
-        bool moving = realSpeed > 0.1f && !agent.isStopped;
+        Gizmos.color = Color.cyan;
 
-        animator.SetBool("isMoving", moving);
-        animator.SetFloat("Speed", realSpeed);
+        for (int i = 0; i < patrolPoints.Length; i++)
+        {
+            if (patrolPoints[i] == null) continue;
+
+            Gizmos.DrawSphere(patrolPoints[i].position, 0.2f);
+
+            Transform next = patrolPoints[(i + 1) % patrolPoints.Length];
+            if (next != null)
+                Gizmos.DrawLine(patrolPoints[i].position, next.position);
+        }
     }
 }
