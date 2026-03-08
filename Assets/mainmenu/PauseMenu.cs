@@ -24,6 +24,17 @@ public class PauseMenu : MonoBehaviour
     public AudioClip wooshClip;
     public AudioClip bottleBreakClip;
 
+    public static PauseMenu Instance { get; private set; }
+
+    // Tätä InventoryUI voi kysyä
+    public static bool IsPauseBlockingInput
+    {
+        get
+        {
+            return Instance != null && (Instance.isPaused || Instance.isAnimating);
+        }
+    }
+
     bool isPaused;
     bool isAnimating;
 
@@ -35,6 +46,8 @@ public class PauseMenu : MonoBehaviour
 
     void Awake()
     {
+        Instance = this;
+
         if (pausePanel != null)
         {
             panelRect = pausePanel.GetComponent<RectTransform>();
@@ -143,7 +156,7 @@ public class PauseMenu : MonoBehaviour
         // NYT kun pullo on alhaalla -> bottle crack
         PlaySfx(bottleBreakClip);
 
-        // Pieni hetki että ääni ehtii startata (optional)
+        // Pieni hetki että ääni ehtii startata
         yield return new WaitForSecondsRealtime(0.05f);
 
         // Unpause ja piilota
@@ -184,6 +197,9 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1f;
             isPaused = false;
         }
+
+        if (Instance == this)
+            Instance = null;
     }
 
     void PlaySfx(AudioClip clip)

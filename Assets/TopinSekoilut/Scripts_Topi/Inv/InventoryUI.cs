@@ -58,6 +58,9 @@ public class InventoryUI : MonoBehaviour
     {
         if (panel == null) return;
 
+        // ESTÄ inventory toggle kun pausemenu on auki tai animoi
+        if (PauseMenu.IsPauseBlockingInput) return;
+
         // estä spam / tuplakutsu
         if (Time.unscaledTime < nextToggleTime) return;
         nextToggleTime = Time.unscaledTime + toggleCooldown;
@@ -77,7 +80,6 @@ public class InventoryUI : MonoBehaviour
             Refresh();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            // Time.timeScale = 0f; // jos haluat pauselle
         }
         else
         {
@@ -87,7 +89,6 @@ public class InventoryUI : MonoBehaviour
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
-            // Time.timeScale = 1f;
         }
     }
 
@@ -96,10 +97,8 @@ public class InventoryUI : MonoBehaviour
         if (audioSource == null || clip == null) return;
 
         // varmistus: jos jotain on jäänyt soimaan, pysäytä se
-        // (ei pitäisi tapahtua PlayOneShotilla, mutta varmuuden vuoksi)
         audioSource.Stop();
         audioSource.loop = false;
-
         audioSource.PlayOneShot(clip);
     }
 
