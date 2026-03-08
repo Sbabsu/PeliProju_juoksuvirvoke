@@ -497,7 +497,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6494189931393562255
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1074,8 +1074,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Kaljakuitti
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 32241461687f0dd419b2913bdf62a996, type: 2}
-  m_sharedMaterial: {fileID: -3959816866881753382, guid: 32241461687f0dd419b2913bdf62a996, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6de95a2f77d92b7468dddb9c1c314873, type: 2}
+  m_sharedMaterial: {fileID: -8286326502996526335, guid: 6de95a2f77d92b7468dddb9c1c314873, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1400,12 +1400,11 @@ MonoBehaviour:
   - {fileID: 3598605996051440488}
   - {fileID: 5806162194150643902}
   capFilled: {fileID: 21300000, guid: 40550dc1f5878cb478e3110b84dc2785, type: 3}
-  capEmpty: {fileID: 0}
-  goldenGamsaImage: {fileID: 0}
-  popScale: 1.25
-  popInTime: 0.08
-  popOutTime: 0.1
+  dropHeight: 60
+  dropTime: 0.18
+  settleTime: 0.1
   delayBetweenCaps: 0.06
+  popScale: 1.25
   wobbleDegrees: 8
 --- !u!1 &2716015163156435647
 GameObject:
@@ -1890,8 +1889,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 1de7d42b7ac5c0e44beee1e0b427349b, type: 2}
-  m_sharedMaterial: {fileID: -3643117615782152246, guid: 1de7d42b7ac5c0e44beee1e0b427349b, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 44c5c0005165e874ea5f00497617ffcd, type: 2}
+  m_sharedMaterial: {fileID: 5809894417528363345, guid: 44c5c0005165e874ea5f00497617ffcd, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2376,8 +2375,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 32241461687f0dd419b2913bdf62a996, type: 2}
-  m_sharedMaterial: {fileID: -3959816866881753382, guid: 32241461687f0dd419b2913bdf62a996, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6de95a2f77d92b7468dddb9c1c314873, type: 2}
+  m_sharedMaterial: {fileID: -8286326502996526335, guid: 6de95a2f77d92b7468dddb9c1c314873, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2549,10 +2548,9 @@ MonoBehaviour:
   nextLevelButton: {fileID: 5956350498836272890}
   capRatingUI: {fileID: 6995286443730798580}
   inventory: {fileID: 0}
-  gameSceneName: SampleScene
   mainMenuSceneName: MainMenu
-  audioSource: {fileID: 0}
-  printClip: {fileID: 0}
+  audioSource: {fileID: 7371022805183173051}
+  printClip: {fileID: 8300000, guid: ff870d8e8c446fc428ee8bcca950793b, type: 3}
   typeSpeed: 0.02
   jitterAmount: 1.2
   fadeSpeed: 8
@@ -3154,7 +3152,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7115030884988999868
 Transform:
