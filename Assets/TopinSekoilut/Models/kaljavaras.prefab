@@ -1649,7 +1649,7 @@ MonoBehaviour:
   speed: 2.5
   strafeSpeed: 1.5
   sprintSpeed: 4
-  jumpForce: 150
+  jumpForce: 175
   turnSpeed: 10
   forwardThreshold: 0.1
   maxVelocityChangePerFixed: 6
