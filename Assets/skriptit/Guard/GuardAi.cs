@@ -36,8 +36,6 @@ public class GuardAI : MonoBehaviour
             GoToNextPatrolPoint();
     }
 
-    // -------- Public helpers used by the AI state --------
-
     public void GoToNextPatrolPoint()
     {
         if (patrolPoints == null || patrolPoints.Length == 0) return;
@@ -63,6 +61,7 @@ public class GuardAI : MonoBehaviour
 
         return player != null ? player.position : Vector3.zero;
     }
+
     public void SetPlayerTarget(Transform newPlayer)
     {
         player = newPlayer;
@@ -79,16 +78,14 @@ public class GuardAI : MonoBehaviour
         if (angle > viewAngle / 2f) return false;
 
         RaycastHit hit;
-        Vector3 rayOrigin = transform.position + Vector3.up * 1f; // eye level
+        Vector3 rayOrigin = transform.position + Vector3.up * 1f;
 
-        // Raycast to center
         if (Physics.Raycast(rayOrigin, directionToPlayer.normalized, out hit, viewDistance))
         {
             if (hit.transform == player || hit.transform.IsChildOf(player))
                 return true;
         }
 
-        // Try a couple points (helps ragdolls)
         Vector3[] points =
         {
             playerCenter + Vector3.up * 1.0f,
