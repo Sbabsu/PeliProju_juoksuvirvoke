@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32dc6b20188de354e90000a0df0163b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InventoryService
-  database: {fileID: 0}
+  database: {fileID: 11400000, guid: dbb14d3b7598c6a4e8f8a2fd550cda0e, type: 2}
 --- !u!114 &299356719291314836
 MonoBehaviour:
   m_ObjectHideFlags: 0

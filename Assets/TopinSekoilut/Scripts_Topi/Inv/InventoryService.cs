@@ -1,29 +1,40 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InventoryService : MonoBehaviour
 {
     public static InventoryService Instance { get; private set; }
 
-    [Header("Database (optional but recommended)")]
+    [Header("Item Database")]
     public ItemDatabase database;
 
-    // id -> count
     private readonly Dictionary<string, int> counts = new Dictionary<string, int>();
 
-    // Fired whenever inventory changes (add/remove/clear)
     public event Action OnChanged;
 
     void Awake()
     {
         if (Instance != null && Instance != this)
         {
+            Debug.LogWarning($"InventoryService: Duplicate instance in scene {SceneManager.GetActiveScene().name}");
             Destroy(gameObject);
             return;
         }
+
         Instance = this;
-        // Optional: DontDestroyOnLoad(gameObject);
+
+        if (database == null)
+        {
+            Debug.LogError($"InventoryService: ItemDatabase is not assigned in scene {SceneManager.GetActiveScene().name}");
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
     }
 
     public int GetCount(string itemId)
@@ -39,8 +50,10 @@ public class InventoryService : MonoBehaviour
         if (string.IsNullOrEmpty(itemId)) return;
         if (amount <= 0) amount = 1;
 
-        if (counts.ContainsKey(itemId)) counts[itemId] += amount;
-        else counts[itemId] = amount;
+        if (counts.ContainsKey(itemId))
+            counts[itemId] += amount;
+        else
+            counts[itemId] = amount;
 
         OnChanged?.Invoke();
     }
@@ -50,11 +63,15 @@ public class InventoryService : MonoBehaviour
         if (string.IsNullOrEmpty(itemId)) return false;
         if (amount <= 0) amount = 1;
 
-        if (!counts.TryGetValue(itemId, out var current) || current <= 0) return false;
+        if (!counts.TryGetValue(itemId, out var current) || current <= 0)
+            return false;
 
         current -= amount;
-        if (current <= 0) counts.Remove(itemId);
-        else counts[itemId] = current;
+
+        if (current <= 0)
+            counts.Remove(itemId);
+        else
+            counts[itemId] = current;
 
         OnChanged?.Invoke();
         return true;
@@ -66,7 +83,6 @@ public class InventoryService : MonoBehaviour
         OnChanged?.Invoke();
     }
 
-    // ---- Receipt: displayName -> amount (merges same displayName)
     public Dictionary<string, int> GetReceiptItemsByName()
     {
         var result = new Dictionary<string, int>();
@@ -84,8 +100,10 @@ public class InventoryService : MonoBehaviour
                     name = def.displayName;
             }
 
-            if (result.ContainsKey(name)) result[name] += kvp.Value;
-            else result[name] = kvp.Value;
+            if (result.ContainsKey(name))
+                result[name] += kvp.Value;
+            else
+                result[name] = kvp.Value;
         }
 
         return result;
@@ -94,6 +112,7 @@ public class InventoryService : MonoBehaviour
     public string GetDisplayName(string itemId)
     {
         if (database == null) return itemId;
+
         var def = database.GetById(itemId);
         return (def != null && !string.IsNullOrEmpty(def.displayName)) ? def.displayName : itemId;
     }
@@ -101,9 +120,11 @@ public class InventoryService : MonoBehaviour
     public Sprite GetIcon(string itemId)
     {
         if (database == null) return null;
+
         var def = database.GetById(itemId);
         return def != null ? def.icon : null;
     }
+
     public bool IsEmpty()
     {
         foreach (var kvp in counts)
@@ -113,5 +134,4 @@ public class InventoryService : MonoBehaviour
         }
         return true;
     }
-
 }
