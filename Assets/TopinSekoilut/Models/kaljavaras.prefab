@@ -549,7 +549,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   spring: 50000
   damper: 5000
-  maxDistance: 0.5
+  maxDistance: 1
   heldExtraDrag: 1.5
   heldExtraAngularDrag: 1.5
   heldMassScale: 1
@@ -1653,7 +1653,7 @@ MonoBehaviour:
   turnSpeed: 10
   forwardThreshold: 0.1
   maxVelocityChangePerFixed: 6
-  maxStamina: 5
+  maxStamina: 8
   staminaDrainPerSecond: 1
   staminaRegenPerSecond: 0.8
   regenDelay: 1
@@ -2776,7 +2776,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   spring: 50000
   damper: 5000
-  maxDistance: 0.5
+  maxDistance: 1
   heldExtraDrag: 1.5
   heldExtraAngularDrag: 1.5
   heldMassScale: 1

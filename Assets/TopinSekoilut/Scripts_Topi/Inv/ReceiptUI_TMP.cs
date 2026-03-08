@@ -30,7 +30,6 @@ public class ReceiptUI_TMP : MonoBehaviour
     public InventoryService inventory;
 
     [Header("Scene names")]
-    public string gameSceneName = "SampleScene";
     public string mainMenuSceneName = "MainMenu";
 
     [Header("Audio")]
@@ -51,17 +50,17 @@ public class ReceiptUI_TMP : MonoBehaviour
     {
         if (overlay != null) overlay.SetActive(false);
 
-        if (retryButton != null) retryButton.onClick.AddListener(() =>
-        {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(gameSceneName);
-        });
+        if (retryButton != null)
+            retryButton.onClick.AddListener(RetryCurrentScene);
 
-        if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() =>
+        if (mainMenuButton != null)
         {
-            Time.timeScale = 1f;
-            SceneManager.LoadScene(mainMenuSceneName);
-        });
+            mainMenuButton.onClick.AddListener(() =>
+            {
+                Time.timeScale = 1f;
+                SceneManager.LoadScene(mainMenuSceneName);
+            });
+        }
 
         if (nextLevelButton != null)
         {
@@ -82,6 +81,12 @@ public class ReceiptUI_TMP : MonoBehaviour
 
         if (capRatingUI != null)
             capRatingUI.HideRow();
+    }
+
+    private void RetryCurrentScene()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // -------------------------
