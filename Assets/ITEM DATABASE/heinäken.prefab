@@ -162,6 +162,9 @@ MonoBehaviour:
   itemId: "beer_can_hein\xE4kenk\xE4"
   amount: 1
   destroyOnPickup: 1
+  pickupAudio:
+  - {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}
+  pickupVolume: 1
   pickedUp: 0
 --- !u!54 &9069008963097210385
 Rigidbody:

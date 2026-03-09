@@ -5114,6 +5114,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5475665512599669822, guid: 5d96a554f3214174196d6bdceb0f398a, type: 3}
   m_PrefabInstance: {fileID: 593412517}
   m_PrefabAsset: {fileID: 0}
+--- !u!82 &593564254 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 7371022805183173051, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
+  m_PrefabInstance: {fileID: 773277390}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &615899155 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7218594910112132070, guid: 8b0e691142d63f84a95281c026cee28f, type: 3}
@@ -5762,7 +5767,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Systems
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8784006422396108742, guid: 0190659611d012f44b7ae1e3d76a8088, type: 3}
+      propertyPath: uiAudioSource
+      value: 
+      objectReference: {fileID: 593564254}
+    m_RemovedComponents:
+    - {fileID: 8784006422396108742, guid: 0190659611d012f44b7ae1e3d76a8088, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -11572,7 +11582,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: goldenGambsa
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6414622424344080554, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
+      propertyPath: pickupVolume
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2433488369639572388, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -14816,63 +14831,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4255455087540470789, guid: 5a6d0850081a3d542afce9c74ddb5c13, type: 3}
   m_PrefabInstance: {fileID: 1600266728}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1624431876
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 23.68
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2.613
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -6.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.08715578
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.9961947
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 190
-      objectReference: {fileID: 0}
-    - target: {fileID: 3536336406065507760, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4204188957482727178, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
-      propertyPath: m_Name
-      value: goldenGambsa (1)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
 --- !u!1001 &1626292891
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21532,5 +21490,4 @@ SceneRoots:
   - {fileID: 973626790}
   - {fileID: 740829554}
   - {fileID: 1175213642}
-  - {fileID: 1624431876}
   - {fileID: 680243409}

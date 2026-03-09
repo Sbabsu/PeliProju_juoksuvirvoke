@@ -143,6 +143,8 @@ MonoBehaviour:
   itemId: beer_can_nalle
   amount: 1
   destroyOnPickup: 1
+  pickupSound: {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}
+  pickupVolume: 1
   pickedUp: 0
 --- !u!136 &8899060962343932301
 CapsuleCollider:
