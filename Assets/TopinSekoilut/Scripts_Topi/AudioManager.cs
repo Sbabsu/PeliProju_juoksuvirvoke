@@ -55,15 +55,21 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
- 
+        ItemDefinition def = InventoryService.Instance.GetDefinition(itemId);
+        if (def == null)
+        {
+            Debug.LogWarning("InventoryAudio: No ItemDefinition found for itemId: " + itemId);
+            return;
+        }
 
+        AudioClip clip = def.pickupSoundClip;
         if (clip == null)
         {
             Debug.LogWarning("InventoryAudio: No pickup clip found for itemId: " + itemId);
             return;
         }
 
+        sfxSource.PlayOneShot(clip, def.pickupVolume);
         Debug.Log("InventoryAudio: Playing clip " + clip.name);
-        sfxSource.PlayOneShot(clip);
     }
 }

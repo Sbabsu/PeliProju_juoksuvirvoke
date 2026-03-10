@@ -1,44 +1,34 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class InventoryService : MonoBehaviour
 {
     public static InventoryService Instance { get; private set; }
 
-    [Header("Item Database")]
+    [Header("Database (optional but recommended)")]
     public ItemDatabase database;
 
+    // id -> count
     private readonly Dictionary<string, int> counts = new Dictionary<string, int>();
 
+    // Fired whenever inventory changes
     public event Action OnChanged;
+
+    // Backward compatibility for older UI/scripts
     public event Action<string, int> OnItemAdded;
 
     void Awake()
     {
-        Debug.Log($"InventoryService Awake on {name} instanceID={GetInstanceID()}");
-
         if (Instance != null && Instance != this)
         {
-            Debug.LogWarning($"InventoryService: Duplicate instance in scene {SceneManager.GetActiveScene().name}");
             Destroy(gameObject);
             return;
         }
 
         Instance = this;
-<<<<<<< HEAD
-
-        if (database == null)
-            Debug.LogError($"InventoryService: ItemDatabase is not assigned in scene {SceneManager.GetActiveScene().name}");
-    }
-
-    void OnDestroy()
-    {
-        if (Instance == this)
-            Instance = null;
-=======
->>>>>>> 3939870 (stamina + kaljacounter sekä inventoryyn nimet kaikille eikä vaan ölppönen nimeä montaa kertaa)
+        // Optional:
+        // DontDestroyOnLoad(gameObject);
     }
 
     public int GetCount(string itemId)
@@ -51,8 +41,6 @@ public class InventoryService : MonoBehaviour
 
     public void AddItem(string itemId, int amount = 1)
     {
-        Debug.Log($"AddItem called: {itemId} x{amount}");
-
         if (string.IsNullOrEmpty(itemId)) return;
         if (amount <= 0) amount = 1;
 
@@ -61,11 +49,8 @@ public class InventoryService : MonoBehaviour
         else
             counts[itemId] = amount;
 
-        Debug.Log($"Before OnItemAdded invoke: {itemId}");
-        OnItemAdded?.Invoke(itemId, amount);
-        Debug.Log($"After OnItemAdded invoke: {itemId}");
-
         OnChanged?.Invoke();
+        OnItemAdded?.Invoke(itemId, counts[itemId]);
     }
 
     public bool RemoveItem(string itemId, int amount = 1)
@@ -135,6 +120,12 @@ public class InventoryService : MonoBehaviour
         return def != null ? def.icon : null;
     }
 
+    public ItemDefinition GetDefinition(string itemId)
+    {
+        if (database == null) return null;
+        return database.GetById(itemId);
+    }
+
     public bool IsEmpty()
     {
         foreach (var kvp in counts)
@@ -142,15 +133,10 @@ public class InventoryService : MonoBehaviour
             if (kvp.Value > 0)
                 return false;
         }
+
         return true;
     }
 
-<<<<<<< HEAD
-    public ItemDefinition GetDefinition(string itemId)
-    {
-        if (database == null) return null;
-        return database.GetById(itemId);
-=======
     public int GetCountByGroup(string group)
     {
         if (string.IsNullOrEmpty(group) || database == null) return 0;
@@ -179,6 +165,5 @@ public class InventoryService : MonoBehaviour
     {
         if (database == null) return group;
         return database.GetFirstDisplayNameByGroup(group);
->>>>>>> 3939870 (stamina + kaljacounter sekä inventoryyn nimet kaikille eikä vaan ölppönen nimeä montaa kertaa)
     }
 }
