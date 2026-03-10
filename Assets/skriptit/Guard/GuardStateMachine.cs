@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(GuardAI))]
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class GuardStateMachine : MonoBehaviour
 {
     public enum State
@@ -16,6 +17,7 @@ public class GuardStateMachine : MonoBehaviour
 
     [Header("Refs")]
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource audioSource;
 
     [Header("State")]
     [SerializeField] private State state = State.Patrol;
@@ -42,6 +44,30 @@ public class GuardStateMachine : MonoBehaviour
     [SerializeField] private float chaseSpeed = 5.0f;
     [SerializeField] private float reachedDistance = 0.6f;
 
+    [Header("State Audio")]
+    [SerializeField] private AudioClip[] patrolSounds;
+    [SerializeField] private AudioClip[] idleSounds;
+    [SerializeField] private AudioClip[] chaseSounds;
+    [SerializeField] private AudioClip[] searchSounds;
+    [SerializeField][Range(0f, 1f)] private float soundVolume = 1f;
+
+    [Header("Patrol Barking")]
+    [SerializeField] private bool playPatrolSoundsWhileActive = true;
+    [SerializeField] private Vector2 patrolSoundIntervalRange = new Vector2(4f, 8f);
+    [SerializeField][Range(0f, 1f)] private float patrolSoundChance = 0.35f;
+
+    [Header("Idle Barking")]
+    [SerializeField] private bool playIdleSoundsWhileActive = true;
+    [SerializeField] private Vector2 idleSoundIntervalRange = new Vector2(3f, 6f);
+    [SerializeField][Range(0f, 1f)] private float idleSoundChance = 0.5f;
+
+    [Header("Audio Priority")]
+    [SerializeField] private bool chaseCanInterrupt = true;
+    [SerializeField] private bool searchCanInterrupt = false;
+
+    private float patrolSoundTimer;
+    private float idleSoundTimer;
+
     private float _speedMultiplier = 1f;
     private Coroutine _speedRoutine;
 
@@ -52,11 +78,21 @@ public class GuardStateMachine : MonoBehaviour
     {
         ai = GetComponent<GuardAI>();
         agent = GetComponent<NavMeshAgent>();
-        if (animator == null) animator = GetComponentInChildren<Animator>();
+
+        if (animator == null)
+            animator = GetComponentInChildren<Animator>();
+
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null)
+            audioSource.playOnAwake = false;
     }
 
     private void Start()
     {
+        ResetPatrolSoundTimer();
+        ResetIdleSoundTimer();
         EnterPatrol();
     }
 
@@ -81,10 +117,12 @@ public class GuardStateMachine : MonoBehaviour
         {
             case State.Patrol:
                 TickPatrol(canSee);
+                TickPatrolAudio();
                 break;
 
             case State.IdleWait:
                 TickIdleWait(canSee);
+                TickIdleAudio();
                 break;
 
             case State.Chase:
@@ -156,6 +194,7 @@ public class GuardStateMachine : MonoBehaviour
         ApplySpeed(chaseSpeed);
 
         SetAnimBools(walking: false, running: true);
+        TryPlayRandomSound(chaseSounds, chaseCanInterrupt);
     }
 
     private void TickChase(Vector3 playerCenter, bool canSee)
@@ -179,6 +218,7 @@ public class GuardStateMachine : MonoBehaviour
         ApplySpeed(patrolSpeed);
 
         SetAnimBools(walking: true, running: false);
+        TryPlayRandomSound(searchSounds, searchCanInterrupt);
 
         searchTimer = searchDuration;
         agent.SetDestination(lastPos);
@@ -201,6 +241,46 @@ public class GuardStateMachine : MonoBehaviour
                 EnterPatrol();
             }
         }
+    }
+
+    private void TickPatrolAudio()
+    {
+        if (!playPatrolSoundsWhileActive || patrolSounds == null || patrolSounds.Length == 0)
+            return;
+
+        patrolSoundTimer -= Time.deltaTime;
+        if (patrolSoundTimer > 0f)
+            return;
+
+        if (Random.value <= patrolSoundChance)
+            TryPlayRandomSound(patrolSounds, false);
+
+        ResetPatrolSoundTimer();
+    }
+
+    private void TickIdleAudio()
+    {
+        if (!playIdleSoundsWhileActive || idleSounds == null || idleSounds.Length == 0)
+            return;
+
+        idleSoundTimer -= Time.deltaTime;
+        if (idleSoundTimer > 0f)
+            return;
+
+        if (Random.value <= idleSoundChance)
+            TryPlayRandomSound(idleSounds, false);
+
+        ResetIdleSoundTimer();
+    }
+
+    private void ResetPatrolSoundTimer()
+    {
+        patrolSoundTimer = Random.Range(patrolSoundIntervalRange.x, patrolSoundIntervalRange.y);
+    }
+
+    private void ResetIdleSoundTimer()
+    {
+        idleSoundTimer = Random.Range(idleSoundIntervalRange.x, idleSoundIntervalRange.y);
     }
 
     private void ApplySpeed(float baseSpeed)
@@ -259,6 +339,27 @@ public class GuardStateMachine : MonoBehaviour
         animator.SetBool("isWalking", walking);
         animator.SetBool("isRunning", running);
         animator.SetBool("isIdle", !walking && !running);
+    }
+
+    private bool TryPlayRandomSound(AudioClip[] clips, bool interruptCurrent)
+    {
+        if (audioSource == null || clips == null || clips.Length == 0)
+            return false;
+
+        if (audioSource.isPlaying)
+        {
+            if (!interruptCurrent)
+                return false;
+
+            audioSource.Stop();
+        }
+
+        AudioClip clip = clips[Random.Range(0, clips.Length)];
+        if (clip == null)
+            return false;
+
+        audioSource.PlayOneShot(clip, soundVolume);
+        return true;
     }
 
     public void TriggerCameraChase(Transform spottedPlayer)

@@ -14,6 +14,15 @@ public class GuardCatchPlayer : MonoBehaviour
         if (inventory == null) inventory = InventoryService.Instance;
     }
 
+    private void Start()
+    {
+        if (inventory == null)
+            inventory = InventoryService.Instance;
+
+        if (receiptUI == null)
+            receiptUI = Object.FindFirstObjectByType<ReceiptUI_TMP>();
+    }
+
     private void Update()
     {
         if (_cd > 0f) _cd -= Time.deltaTime;

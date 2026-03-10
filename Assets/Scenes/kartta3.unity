@@ -9747,7 +9747,7 @@ PrefabInstance:
     - target: {fileID: 5935985594588493890, guid: fbccbe93a33b16b4782a258e328c0c45, type: 3}
       propertyPath: inventory
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1894321245}
     - target: {fileID: 5935985594588493890, guid: fbccbe93a33b16b4782a258e328c0c45, type: 3}
       propertyPath: receiptUI
       value: 
@@ -13472,7 +13472,7 @@ PrefabInstance:
     - target: {fileID: 5935985594588493890, guid: fbccbe93a33b16b4782a258e328c0c45, type: 3}
       propertyPath: inventory
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1894321245}
     - target: {fileID: 5935985594588493890, guid: fbccbe93a33b16b4782a258e328c0c45, type: 3}
       propertyPath: receiptUI
       value: 
@@ -20011,6 +20011,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1885149346}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1894321245 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2699122730964887503, guid: 0190659611d012f44b7ae1e3d76a8088, type: 3}
+  m_PrefabInstance: {fileID: 476052521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32dc6b20188de354e90000a0df0163b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventoryService
 --- !u!1 &1898167764
 GameObject:
   m_ObjectHideFlags: 0
