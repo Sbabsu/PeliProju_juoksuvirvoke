@@ -27,6 +27,7 @@ public class InventoryService : MonoBehaviour
         }
 
         Instance = this;
+<<<<<<< HEAD
 
         if (database == null)
             Debug.LogError($"InventoryService: ItemDatabase is not assigned in scene {SceneManager.GetActiveScene().name}");
@@ -36,6 +37,8 @@ public class InventoryService : MonoBehaviour
     {
         if (Instance == this)
             Instance = null;
+=======
+>>>>>>> 3939870 (stamina + kaljacounter sekä inventoryyn nimet kaikille eikä vaan ölppönen nimeä montaa kertaa)
     }
 
     public int GetCount(string itemId)
@@ -142,9 +145,40 @@ public class InventoryService : MonoBehaviour
         return true;
     }
 
+<<<<<<< HEAD
     public ItemDefinition GetDefinition(string itemId)
     {
         if (database == null) return null;
         return database.GetById(itemId);
+=======
+    public int GetCountByGroup(string group)
+    {
+        if (string.IsNullOrEmpty(group) || database == null) return 0;
+
+        int total = 0;
+
+        foreach (var kvp in counts)
+        {
+            if (kvp.Value <= 0) continue;
+
+            string itemGroup = database.GetGroupById(kvp.Key);
+            if (itemGroup == group)
+                total += kvp.Value;
+        }
+
+        return total;
+    }
+
+    public Sprite GetGroupIcon(string group)
+    {
+        if (database == null) return null;
+        return database.GetFirstIconByGroup(group);
+    }
+
+    public string GetGroupDisplayName(string group)
+    {
+        if (database == null) return group;
+        return database.GetFirstDisplayNameByGroup(group);
+>>>>>>> 3939870 (stamina + kaljacounter sekä inventoryyn nimet kaikille eikä vaan ölppönen nimeä montaa kertaa)
     }
 }

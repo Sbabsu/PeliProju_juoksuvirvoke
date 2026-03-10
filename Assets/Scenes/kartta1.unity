@@ -5217,8 +5217,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PickUp
   maxPickupsFromArea: 5
-  itemId: beer_can
-  amountPerPickup: 1
+  possibleItems:
+  - itemId: beer_glass
+    amountMin: 1
+    amountMax: 1
+    weight: 1
+  - itemId: beer_bottle_nalle
+    amountMin: 1
+    amountMax: 1
+    weight: 1
+  randomEachPickup: 1
   pickupEffect: {fileID: 0}
   collectedMaterial: {fileID: 0}
 --- !u!135 &1716587432
@@ -5664,10 +5672,6 @@ PrefabInstance:
     - target: {fileID: 7843878199563484235, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
       propertyPath: m_Name
       value: UI_STUFF
-      objectReference: {fileID: 0}
-    - target: {fileID: 7843878199563484235, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

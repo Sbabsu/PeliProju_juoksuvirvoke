@@ -87,6 +87,7 @@ public class InventoryUI : MonoBehaviour
             Refresh();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            
         }
         else
         {

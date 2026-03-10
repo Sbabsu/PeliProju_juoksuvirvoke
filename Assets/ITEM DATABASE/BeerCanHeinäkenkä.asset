@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: "BeerCanHein\xE4kenk\xE4"
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: "beer_can_hein\xE4kenk\xE4"
-  displayName: "\xF6lpp\xF6nen"
+  displayName: "Hein\xE4kenk\xE4"
   icon: {fileID: 0}
+  itemGroup: beer_can
   worldPrefab: {fileID: 5975653955164312741, guid: 998644a6efac2b24f9e1a34e51598bcb, type: 3}
   pickupSoundClip:
   - {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}

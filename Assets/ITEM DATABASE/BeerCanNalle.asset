@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BeerCanNalle
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: beer_can_nalle
-  displayName: "\xF6lpp\xF6nen"
+  displayName: Nalle
   icon: {fileID: 0}
+  itemGroup: beer_can
   worldPrefab: {fileID: 8113877453861193815, guid: 08e79732628685e4ba3831be2969695c, type: 3}
   pickupSoundClip:
   - {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}

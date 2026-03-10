@@ -298,5 +298,6 @@ public class PlayerController : MonoBehaviour
         _speedMultiplier = 1f;
         _speedRoutine = null;
     }
+    public float StaminaNormalized => _stamina / maxStamina;
 
 }
