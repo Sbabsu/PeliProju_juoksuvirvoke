@@ -17,12 +17,11 @@ public class InventoryUI : MonoBehaviour
     public AudioClip closeSfx;
 
     [Header("Safety")]
-    [Tooltip("Estää Tabin / kutsujen tuplalaukaukset (sekunteina).")]
     public float toggleCooldown = 0.15f;
 
     private float nextToggleTime;
-    private bool isOpen;                 // pidetään oma tila varmana
-    private bool openSfxPlayedThisOpen;  // guard: open ääni vain kerran per avaus
+    private bool isOpen;
+    private bool openSfxPlayedThisOpen;
 
     private InventoryService inv;
 
@@ -33,36 +32,45 @@ public class InventoryUI : MonoBehaviour
         openSfxPlayedThisOpen = false;
 
         if (audioSource == null) audioSource = GetComponent<AudioSource>();
-        if (audioSource != null) audioSource.loop = false; // varmuus
+        if (audioSource != null)
+        {
+            audioSource.loop = false;
+            audioSource.playOnAwake = false;
+            audioSource.spatialBlend = 0f;
+        }
     }
 
     void Start()
     {
         inv = InventoryService.Instance;
+
+        if (inv == null)
+        {
+            Debug.LogWarning("InventoryUI: InventoryService.Instance is still null in Start");
+            return;
+        }
+
+        inv.OnChanged += Refresh;
+        inv.OnItemAdded += HandleItemAdded;
+
         Refresh();
     }
 
-    void OnEnable()
+    void OnDestroy()
     {
-        if (inv == null) inv = InventoryService.Instance;
-        if (inv != null) inv.OnChanged += Refresh;
-        Refresh();
-    }
-
-    void OnDisable()
-    {
-        if (inv != null) inv.OnChanged -= Refresh;
+        if (inv != null)
+        {
+            inv.OnChanged -= Refresh;
+            inv.OnItemAdded -= HandleItemAdded;
+        }
     }
 
     public void Toggle()
     {
         if (panel == null) return;
-
-        // ESTÄ inventory toggle kun pausemenu on auki tai animoi
         if (PauseMenu.IsPauseBlockingInput) return;
-
-        // estä spam / tuplakutsu
         if (Time.unscaledTime < nextToggleTime) return;
+
         nextToggleTime = Time.unscaledTime + toggleCooldown;
 
         isOpen = !isOpen;
@@ -70,11 +78,10 @@ public class InventoryUI : MonoBehaviour
 
         if (isOpen)
         {
-            // Soita open vain kerran per avaus
             if (!openSfxPlayedThisOpen)
             {
                 openSfxPlayedThisOpen = true;
-                PlaySfx(openSfx);
+                PlayUiSfx(openSfx);
             }
 
             Refresh();
@@ -83,20 +90,18 @@ public class InventoryUI : MonoBehaviour
         }
         else
         {
-            // kun suljetaan, vapautetaan open-guard seuraavaa avausta varten
             openSfxPlayedThisOpen = false;
-            PlaySfx(closeSfx);
+            PlayUiSfx(closeSfx);
 
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
-    private void PlaySfx(AudioClip clip)
+    private void PlayUiSfx(AudioClip clip)
     {
         if (audioSource == null || clip == null) return;
 
-        // varmistus: jos jotain on jäänyt soimaan, pysäytä se
         audioSource.Stop();
         audioSource.loop = false;
         audioSource.PlayOneShot(clip);
@@ -105,6 +110,7 @@ public class InventoryUI : MonoBehaviour
     public void Refresh()
     {
         if (listText == null) return;
+
         if (inv == null)
         {
             listText.text = "InventoryService missing";
@@ -142,5 +148,29 @@ public class InventoryUI : MonoBehaviour
         int count = inv.GetCount(itemId);
 
         pickupFeed.Show(name, count, icon);
+    }
+
+    private void HandleItemAdded(string itemId, int amount)
+    {
+        ShowPickup(itemId);
+
+        if (inv == null) return;
+
+        var def = inv.GetDefinition(itemId);
+        if (def == null) return;
+
+        if (def.pickupSoundClip != null && def.pickupSoundClip.Length > 0)
+        {
+            int randomIndex = Random.Range(0, def.pickupSoundClip.Length);
+            AudioClip clip = def.pickupSoundClip[randomIndex];
+            PlayPickupSfx(clip, def.pickupVolume);
+        }
+    }
+
+    private void PlayPickupSfx(AudioClip clip, float volume = 1f)
+    {
+        if (audioSource == null || clip == null) return;
+
+        audioSource.PlayOneShot(clip, volume);
     }
 }

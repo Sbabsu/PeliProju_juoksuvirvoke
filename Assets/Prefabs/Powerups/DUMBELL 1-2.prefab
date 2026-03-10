@@ -160,6 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GuardSlowPowerUp
   slowMultiplier: 0.5
   duration: 10
+  pickupSoundClip:
+  - {fileID: 8300000, guid: 8a7cf3a45d9128a4f8f49258e07328a9, type: 3}
+  volume: 1
 --- !u!114 &7387975290089093601
 MonoBehaviour:
   m_ObjectHideFlags: 0

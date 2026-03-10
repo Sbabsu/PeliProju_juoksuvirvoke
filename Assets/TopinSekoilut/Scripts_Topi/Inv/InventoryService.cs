@@ -13,9 +13,12 @@ public class InventoryService : MonoBehaviour
     private readonly Dictionary<string, int> counts = new Dictionary<string, int>();
 
     public event Action OnChanged;
+    public event Action<string, int> OnItemAdded;
 
     void Awake()
     {
+        Debug.Log($"InventoryService Awake on {name} instanceID={GetInstanceID()}");
+
         if (Instance != null && Instance != this)
         {
             Debug.LogWarning($"InventoryService: Duplicate instance in scene {SceneManager.GetActiveScene().name}");
@@ -26,9 +29,7 @@ public class InventoryService : MonoBehaviour
         Instance = this;
 
         if (database == null)
-        {
             Debug.LogError($"InventoryService: ItemDatabase is not assigned in scene {SceneManager.GetActiveScene().name}");
-        }
     }
 
     void OnDestroy()
@@ -47,6 +48,8 @@ public class InventoryService : MonoBehaviour
 
     public void AddItem(string itemId, int amount = 1)
     {
+        Debug.Log($"AddItem called: {itemId} x{amount}");
+
         if (string.IsNullOrEmpty(itemId)) return;
         if (amount <= 0) amount = 1;
 
@@ -54,6 +57,10 @@ public class InventoryService : MonoBehaviour
             counts[itemId] += amount;
         else
             counts[itemId] = amount;
+
+        Debug.Log($"Before OnItemAdded invoke: {itemId}");
+        OnItemAdded?.Invoke(itemId, amount);
+        Debug.Log($"After OnItemAdded invoke: {itemId}");
 
         OnChanged?.Invoke();
     }
@@ -133,5 +140,11 @@ public class InventoryService : MonoBehaviour
                 return false;
         }
         return true;
+    }
+
+    public ItemDefinition GetDefinition(string itemId)
+    {
+        if (database == null) return null;
+        return database.GetById(itemId);
     }
 }

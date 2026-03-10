@@ -10,4 +10,7 @@ public class ItemDefinition : ScriptableObject
     [Header("World Drop")]
     public GameObject worldPrefab;
 
+    [Header("Audio")]
+    public AudioClip[] pickupSoundClip;
+    [Range(0f, 1f)] public float pickupVolume = 1f;
 }

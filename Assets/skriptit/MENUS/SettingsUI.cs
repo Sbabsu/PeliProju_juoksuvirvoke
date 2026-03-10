@@ -7,14 +7,19 @@ public class SettingsUI : MonoBehaviour
     public Slider volumeSlider;
     public Slider sensitivitySlider;
 
+    [Header("Toggles")]
+    public Toggle vsyncToggle;
+
     [Header("Keys")]
     public string volumeKey = "MASTER_VOLUME";
     public string sensKey = "MOUSE_SENS";
+    public string vsyncKey = "VSYNC";
 
     void OnEnable()
     {
         float vol = PlayerPrefs.GetFloat(volumeKey, 1f);
         float sens = PlayerPrefs.GetFloat(sensKey, 1f);
+        bool vsync = PlayerPrefs.GetInt(vsyncKey, 1) == 1;
 
         if (volumeSlider != null)
         {
@@ -30,13 +35,27 @@ public class SettingsUI : MonoBehaviour
             sensitivitySlider.onValueChanged.AddListener(OnSensitivityChanged);
         }
 
+        if (vsyncToggle != null)
+        {
+            vsyncToggle.onValueChanged.RemoveListener(OnVsyncChanged);
+            vsyncToggle.isOn = vsync;
+            vsyncToggle.onValueChanged.AddListener(OnVsyncChanged);
+        }
+
         ApplyVolume(vol);
+        ApplyVsync(vsync);
     }
 
     void OnDisable()
     {
-        if (volumeSlider != null) volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
-        if (sensitivitySlider != null) sensitivitySlider.onValueChanged.RemoveListener(OnSensitivityChanged);
+        if (volumeSlider != null)
+            volumeSlider.onValueChanged.RemoveListener(OnVolumeChanged);
+
+        if (sensitivitySlider != null)
+            sensitivitySlider.onValueChanged.RemoveListener(OnSensitivityChanged);
+
+        if (vsyncToggle != null)
+            vsyncToggle.onValueChanged.RemoveListener(OnVsyncChanged);
     }
 
     void OnVolumeChanged(float v)
@@ -49,14 +68,29 @@ public class SettingsUI : MonoBehaviour
 
     void OnSensitivityChanged(float s)
     {
-        // anna sun sliderille vaikka 0.2–3.0 range Inspectorissa
         PlayerPrefs.SetFloat(sensKey, s);
+        PlayerPrefs.Save();
+    }
+
+    void OnVsyncChanged(bool enabled)
+    {
+        ApplyVsync(enabled);
+        PlayerPrefs.SetInt(vsyncKey, enabled ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     void ApplyVolume(float v)
     {
         AudioListener.volume = v;
+    }
+
+    void ApplyVsync(bool enabled)
+    {
+        QualitySettings.vSyncCount = enabled ? 1 : 0;
+
+        // If VSync is off, enforce your target FPS
+        if (!enabled)
+            Application.targetFrameRate = 144;
     }
 
     public float GetSavedSensitivity() => PlayerPrefs.GetFloat(sensKey, 1f);

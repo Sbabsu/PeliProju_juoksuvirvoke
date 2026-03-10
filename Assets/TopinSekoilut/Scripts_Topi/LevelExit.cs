@@ -8,7 +8,7 @@ public class LevelExit : MonoBehaviour
     void Awake()
     {
         if (receiptUI == null)
-            receiptUI = FindObjectOfType<ReceiptUI_TMP>(true);
+            receiptUI = Object.FindFirstObjectByType<ReceiptUI_TMP>();
     }
 
     private void OnTriggerEnter(Collider other)

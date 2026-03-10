@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 
     public float RunStartRealtime { get; private set; }
 
+    const string VSYNC_KEY = "vsync";
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -13,20 +15,32 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
 
+        Instance = this;
         RunStartRealtime = Time.realtimeSinceStartup;
+
+        ApplySavedVsync();
     }
 
     void OnEnable()
     {
-        // Ensures start time is correct if object is re-enabled
         RunStartRealtime = Time.realtimeSinceStartup;
     }
 
-    private void Start()
+    void ApplySavedVsync()
     {
-        Application.targetFrameRate = 144;
+        bool vsync = PlayerPrefs.GetInt(VSYNC_KEY, 1) == 1;
+
+        if (vsync)
+        {
+            QualitySettings.vSyncCount = 1;
+            Application.targetFrameRate = -1;
+        }
+        else
+        {
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 144;
+        }
     }
 
     public bool IsExitEnabled() => true;

@@ -16,3 +16,6 @@ MonoBehaviour:
   displayName: Gambsa
   icon: {fileID: 0}
   worldPrefab: {fileID: 4204188957482727178, guid: fc07279d928a5bb458dbbfd1ff1f7e89, type: 3}
+  pickupSoundClip:
+  - {fileID: 8300000, guid: 30278651be3d6e046afaf7c79ff67bda, type: 3}
+  pickupVolume: 1
