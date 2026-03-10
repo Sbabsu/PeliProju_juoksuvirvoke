@@ -25,4 +25,39 @@ public class ItemDatabase : ScriptableObject
         map.TryGetValue(id, out var def);
         return def;
     }
+
+    public string GetGroupById(string id)
+    {
+        var def = GetById(id);
+        if (def == null) return null;
+        return def.itemGroup;
+    }
+
+    public Sprite GetFirstIconByGroup(string group)
+    {
+        if (string.IsNullOrEmpty(group)) return null;
+
+        foreach (var it in items)
+        {
+            if (it == null) continue;
+            if (it.itemGroup == group && it.icon != null)
+                return it.icon;
+        }
+
+        return null;
+    }
+
+    public string GetFirstDisplayNameByGroup(string group)
+    {
+        if (string.IsNullOrEmpty(group)) return group;
+
+        foreach (var it in items)
+        {
+            if (it == null) continue;
+            if (it.itemGroup == group && !string.IsNullOrEmpty(it.displayName))
+                return it.displayName;
+        }
+
+        return group;
+    }
 }

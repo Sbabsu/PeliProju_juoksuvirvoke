@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BeerCanSandals
   m_EditorClassIdentifier: Assembly-CSharp::ItemDefinition
   id: beer_can_sandals
-  displayName: "\xF6lpp\xF6nen"
+  displayName: Sandals
   icon: {fileID: 0}
+  itemGroup: beer_can
   worldPrefab: {fileID: 3855804925573244580, guid: 1fdfa040fb1997f40af6ef948cdf6000, type: 3}
   pickupSoundClip:
   - {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}
