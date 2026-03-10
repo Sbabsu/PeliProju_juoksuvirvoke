@@ -50,7 +50,7 @@ public class InventoryService : MonoBehaviour
             counts[itemId] = amount;
 
         OnChanged?.Invoke();
-        OnItemAdded?.Invoke(itemId, counts[itemId]);
+        OnItemAdded?.Invoke(itemId, amount);
     }
 
     public bool RemoveItem(string itemId, int amount = 1)

@@ -11,7 +11,7 @@ public class ItemDefinition : ScriptableObject
     public string itemGroup;   // esim "beer_can"
 
     [Header("Audio")]
-    public AudioClip pickupSoundClip;
+    public AudioClip[] pickupSoundClips;
     [Range(0f, 1f)] public float pickupVolume = 1f;
 
     [Header("World Drop")]

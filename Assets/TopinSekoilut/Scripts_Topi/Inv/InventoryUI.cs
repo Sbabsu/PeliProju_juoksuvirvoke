@@ -87,7 +87,6 @@ public class InventoryUI : MonoBehaviour
             Refresh();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
-            
         }
         else
         {
@@ -160,9 +159,11 @@ public class InventoryUI : MonoBehaviour
         var def = inv.GetDefinition(itemId);
         if (def == null) return;
 
-        if (def.pickupSoundClip != null)
+        if (def.pickupSoundClips != null && def.pickupSoundClips.Length > 0)
         {
-            var clip = def.pickupSoundClip;
+            int randomIndex = Random.Range(0, def.pickupSoundClips.Length);
+            AudioClip clip = def.pickupSoundClips[randomIndex];
+            PlayPickupSfx(clip, def.pickupVolume);
         }
     }
 

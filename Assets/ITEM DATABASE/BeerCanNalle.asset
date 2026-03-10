@@ -16,10 +16,10 @@ MonoBehaviour:
   displayName: Nalle
   icon: {fileID: 0}
   itemGroup: beer_can
-  worldPrefab: {fileID: 8113877453861193815, guid: 08e79732628685e4ba3831be2969695c, type: 3}
-  pickupSoundClip:
+  pickupSoundClips:
   - {fileID: 8300000, guid: cd641e923f0033c43baec95ddc24ad2c, type: 3}
   - {fileID: 8300000, guid: 2e71a8eff315f3b4f9a6fa0bc64b7bda, type: 3}
   - {fileID: 8300000, guid: ca4bf267a1775a545bd3825ca3fefff7, type: 3}
   - {fileID: 8300000, guid: 1b6a4f24c805a6649b4b96be597d5ac6, type: 3}
   pickupVolume: 1
+  worldPrefab: {fileID: 8113877453861193815, guid: 08e79732628685e4ba3831be2969695c, type: 3}
