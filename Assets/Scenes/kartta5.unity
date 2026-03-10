@@ -4951,6 +4951,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2070141416919959790, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2726808655157282661, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -5022,6 +5026,14 @@ PrefabInstance:
     - target: {fileID: 7115030884988999868, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586886533423253863, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586886533423253863, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
+      propertyPath: m_Colors.m_ColorMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7811850792417630360, guid: 1e223cbdcb8889142ba2f46e5564140e, type: 3}
       propertyPath: m_AnchorMax.y

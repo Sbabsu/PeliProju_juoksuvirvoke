@@ -178,10 +178,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bc490fff9f489f34ab137de7fb7a5a70, type: 3}
   - {fileID: 8300000, guid: 36adb7a0b9977e34c84dc971b1656b8b, type: 3}
   - {fileID: 8300000, guid: 36429474266c8ce4fbe3cbf579b4f1bd, type: 3}
+  - {fileID: 8300000, guid: 3ae491b94192e4641b176cf674fa6253, type: 3}
   idleSounds:
   - {fileID: 8300000, guid: 36429474266c8ce4fbe3cbf579b4f1bd, type: 3}
   - {fileID: 8300000, guid: 3ae491b94192e4641b176cf674fa6253, type: 3}
-  - {fileID: 8300000, guid: bc490fff9f489f34ab137de7fb7a5a70, type: 3}
+  - {fileID: 8300000, guid: 90504a1ac887f2b4f8aabf8e972b814a, type: 3}
   chaseSounds:
   - {fileID: 8300000, guid: 3f6b8136d7a14774e831aec4a9df6978, type: 3}
   - {fileID: 8300000, guid: c65fb64e6eace5541a58cbc5ddf4004a, type: 3}
@@ -190,13 +191,16 @@ MonoBehaviour:
   searchSounds:
   - {fileID: 8300000, guid: ff915fb1b20eb0f41a6d99b70def5184, type: 3}
   - {fileID: 8300000, guid: 36e2c322df5e393458f43506f1925c55, type: 3}
-  soundVolume: 0.9
+  - {fileID: 8300000, guid: 4fe8ea8447379c44c95566784d3f2ad4, type: 3}
+  soundVolume: 1
   playPatrolSoundsWhileActive: 1
   patrolSoundIntervalRange: {x: 4, y: 8}
   patrolSoundChance: 0.35
   playIdleSoundsWhileActive: 1
   idleSoundIntervalRange: {x: 3, y: 6}
   idleSoundChance: 0.5
+  chaseCanInterrupt: 1
+  searchCanInterrupt: 0
 --- !u!82 &7427301721630083258
 AudioSource:
   m_ObjectHideFlags: 0
