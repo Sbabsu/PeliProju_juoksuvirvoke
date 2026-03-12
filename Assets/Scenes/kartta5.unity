@@ -3562,10 +3562,6 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
-      propertyPath: speed
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 274720524265772345, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: animRoot
       value: 
       objectReference: {fileID: 1871541334}
@@ -3680,10 +3676,6 @@ PrefabInstance:
     - target: {fileID: 3887626714890896548, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: m_Layer
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3887626714890896548, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 3999006277579324187, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: m_TagString

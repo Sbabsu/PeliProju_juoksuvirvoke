@@ -5399,7 +5399,7 @@ PrefabInstance:
     - target: {fileID: 8903376313783077363, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: inventory
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1599904979}
     - target: {fileID: 8903376313783077363, guid: 855e4832eae17d244b6a34b0950bfbca, type: 3}
       propertyPath: dropOrigin
       value: 
